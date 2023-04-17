@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %}
+<a class="back" href="/">&larr; Back to questions list</a><br /><br />
+<div class="question-list row">
+    <b class="question-title">{{question[4]}}</b>
+    <div class="question-txt">
+        <p class="txt" >{{question[5]}}</p>
+        {% if question[6] != "" %}
+            <div class="container">
+                <img class="pictures" src={{question[6]}} style="max-width: 150px"/>
+            </div>
+        {% endif %}
+        <a class="add-answer" href="{{ url_for('route_answer',id=question[0])}}">Add new answer</a><br/><br/>
+        <p class="vote-question">Number of votes already for this question: {{question[3]}}</p>
+        <div class="del-edit">
+            <a class="delete" href="{{ url_for('delete_question',id=question[0])}}">DELETE QUESTION</a><br/>
+            <a class="edit" href="{{ url_for('edit_question',id=question[0])}}">EDIT QUESTION</a><br /><br/>
+        </div>
+        </div>
+</div>
+{% if answers|length > 0 %}
+<div class="question-list row">
+    <br />
+    <b class="answer-title">ANSWERS</b>
+    {% for answer in answers %}
+        <p class="answer">
+            {{answer[4]}}
+            {% if answer[5] != "" %}
+            <br/>
+            <img src={{answer[5]}} style="max-width: 200px"/>
+            {% endif %}
+            <div class="buttons">
+            <form method="post" action="{{ url_for('route_answer_add_vote', answer_id=answer[0])}}">
+            <button class="plus" type="submit">+</button>
+            <input type="hidden" name="id" value={{question[0]}}></form>
+            <form method="post" action="{{ url_for('route_answer_substract_vote', answer_id=answer[0])}}">
+            <button class="minus" type="submit">-</button>
+            <input type="hidden" name="id" value={{question[0]}}></form>
+            </div>
+            <br/><center>Number of votes already for this answer: <b>{{answer[2]}}</b> </center><br/>
+            <a class="delete-answer" href="{{ url_for('delete_answer',id=answer[0],ids=question[0])}}">DELETE ANSWER</a>
+        </p>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

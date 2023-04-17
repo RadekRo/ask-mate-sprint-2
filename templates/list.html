@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% block content %}
+       
+<div class="questions-list">
+    <table class="table table-borderless table-striped">
+        <tr class="table-title">
+            <!--<th>id</th>-->
+            <th>
+                {% if sort_options[0] == 'date' and sort_options[1] == 'desc' %}
+                    <a href="/?order_by=date&order_direction=asc">DATA</a>
+                {% else %}
+                    <a href="/?order_by=date&order_direction=desc">DATA </a>
+                {% endif %}
+            </th>
+            <th>
+                {% if sort_options[0] == 'views' and sort_options[1] == 'desc' %}
+                    <a href="/?order_by=views&order_direction=asc">VIEWS </a>
+                {% else %}
+                    <a href="/?order_by=views&order_direction=desc">VIEWS </a>
+                {% endif %}
+            </th>
+            <th>
+                {% if sort_options[0] == 'votes' and sort_options[1] == 'desc' %}
+                    <a href="/?order_by=votes&order_direction=asc">VOTES </a>
+                {% else %}
+                    <a href="/?order_by=votes&order_direction=desc">VOTES </a>
+                {% endif %}
+            </th>
+            <th>VOTE</th>
+            <th>
+                {% if sort_options[0] == 'title' and sort_options[1] == 'desc' %}
+                    <a href="/?order_by=title&order_direction=asc">TITLE </a>
+                {% else %}
+                    <a href="/?order_by=title&order_direction=desc">TITLE </a>
+                {% endif %}
+            </th>
+            <th>
+                {% if sort_options[0] == 'message' and sort_options[1] == 'desc' %}
+                    <a href="/?order_by=message&order_direction=asc">MESSAGE </a>
+                {% else %}
+                    <a href="/?order_by=message&order_direction=desc">MESSAGE </a>
+                {% endif %}
+            </th>
+        </tr>
+            {% for question in questions %}
+        <tr>
+            <!--<td>{{question[0]}}</td>-->
+            <td>{{question[1]}}</td>
+            <td>{{question[2]}}</td>
+            <td>{{question[3]}}</td>
+            <td class="butt">
+                <form method="post" action="{{ url_for('route_vote_add',id=question[0])}}">
+                    <input type="hidden" name="order_by" value="{{sort_options[0]}}">
+                    <input type="hidden" name="order_direction" value="{{sort_options[1]}}">
+                    <button class="vote-button butt-1" type="submit">+</button>
+                </form>
+                <form method="post" action="{{ url_for('route_vote_substract',id=question[0])}}">
+                    <input type="hidden" name="order_by" value="{{sort_options[0]}}">
+                    <input type="hidden" name="order_direction" value="{{sort_options[1]}}">
+                    <button class="vote-button butt-2" type="submit">-</button>
+                </form>
+            </td>
+            <td><a href="{{ url_for('route_question',id=question[0])}}">{{question[4]}}</a></td>
+            <td>{{question[5]}}</td>
+            <!--<td>{{question[6]}}</td>-->
+            
+        
+        </tr>
+        {%endfor%}
+
+    </table>
+</div>
+
+{% endblock %}
