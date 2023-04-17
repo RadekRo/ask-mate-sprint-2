@@ -1,3 +1,20 @@
+from typing import List, Dict
+
+from psycopg2 import sql
+from psycopg2.extras import RealDictCursor
+
+import database
+
+
+@database.connection_handler
+def get_all_users(cursor):
+    query = """
+        SELECT * FROM sandbox
+       """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
 import csv, os
 
 DATA_FILE_PATH_ANSWER = 'data/answer.csv'
