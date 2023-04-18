@@ -33,10 +33,15 @@ def import_data_file(filename):
     return questions
 
 
-def get_all_questions():
-    questions = import_data_file(DATA_FILE_PATH_QUESTION)
-    # questions.sort(key = lambda inner:inner[1], reverse=True)
-    return questions
+@database.connection_handler
+def get_all_questions(cursor):
+    query = """
+        SELECT id, submission_time, view_number, vote_number, title, message
+        FROM question
+        ORDER BY submission_time
+       """
+    cursor.execute(query)
+    return cursor.fetchall()
 
 
 def get_question(id):
