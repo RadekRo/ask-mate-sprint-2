@@ -36,35 +36,46 @@ def import_data_file(filename):
 @database.connection_handler
 def get_all_questions(cursor):
     query = """
-        SELECT id, submission_time, view_number, vote_number, title, message
+        SELECT id, submission_time, view_number, vote_number, title, message, image
         FROM question
-        ORDER BY submission_time
+        ORDER BY id
        """
     cursor.execute(query)
     return cursor.fetchall()
 
-
-def get_question(id):
-    questions = import_data_file(DATA_FILE_PATH_QUESTION)
-    for question in questions:
-        if question[0] == id:
-            return question
+       
+@database.connection_handler
+def get_question(cursor, id):
+    query = f"""
+        SELECT id, submission_time, view_number, vote_number, title, message, image
+        FROM question
+        WHERE id = {id}
+       """
+    cursor.execute(query)
+    return cursor.fetchone()
         
 
-def get_answer(id):
-    answers = import_data_file(DATA_FILE_PATH_ANSWER)
-    for answer in answers:
-        if answer[0] == id:
-            return answer
+@database.connection_handler
+def get_answer(cursor, id):
+    query = f"""
+        SELECT id, submission_time, vote_number, question_id, message, image
+        FROM answer
+        WHERE question_id = {id}
+       """
+    cursor.execute(query)
+    return cursor.fetchall()
         
-def get_answers(question_id):
-    all_answers = import_data_file(DATA_FILE_PATH_ANSWER)
-    selected_answers = list()
-    for answer in all_answers:
-        if answer[3] == question_id:
-            selected_answers.append(answer)
-    return selected_answers
 
+@database.connection_handler
+def get_answers(cursor, question_id):
+    query = f"""
+        SELECT submission_time, vote_number, question_id, message, image
+        FROM answer
+        WHERE question_id = {question_id}
+        
+       """
+    cursor.execute(query)
+    return cursor.fetchall()
 
 def get_next_id(selector):
     if selector == "answer":
