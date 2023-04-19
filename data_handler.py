@@ -178,27 +178,37 @@ def substract_vote_answer(answer_id):
             save_data(DATA_FILE_PATH_ANSWER, answers)
             return answers
         
-def remove_question(id):
-    questions = import_data_file(DATA_FILE_PATH_QUESTION)
-    answers = import_data_file(DATA_FILE_PATH_ANSWER)
-    questions_filtered = list()
-    answers_filtered = list()
-    for question in questions:
-        if question[0] == str(id):
-            file_path = "static/images/questions/" + str(id) + ".jpg" 
-            os.path.exists(file_path) and os.remove(file_path)
-            continue
-        else:
-            questions_filtered.append(question)
-    for answer in answers:
-        if answer[3] == str(id):
-            file_path = "static/images/answers/" + str(answer[0]) + ".jpg" 
-            os.path.exists(file_path) and os.remove(file_path)
-            continue
-        else:
-            answers_filtered.append(answer)
-    save_data(DATA_FILE_PATH_QUESTION, questions_filtered)
-    save_data(DATA_FILE_PATH_ANSWER, answers_filtered)
+# def remove_question(id):
+#     questions = import_data_file(DATA_FILE_PATH_QUESTION)
+#     answers = import_data_file(DATA_FILE_PATH_ANSWER)
+#     questions_filtered = list()
+#     answers_filtered = list()
+#     for question in questions:
+#         if question[0] == str(id):
+#             file_path = "static/images/questions/" + str(id) + ".jpg" 
+#             os.path.exists(file_path) and os.remove(file_path)
+#             continue
+#         else:
+#             questions_filtered.append(question)
+#     for answer in answers:
+#         if answer[3] == str(id):
+#             file_path = "static/images/answers/" + str(answer[0]) + ".jpg" 
+#             os.path.exists(file_path) and os.remove(file_path)
+#             continue
+#         else:
+#             answers_filtered.append(answer)
+#     save_data(DATA_FILE_PATH_QUESTION, questions_filtered)
+#     save_data(DATA_FILE_PATH_ANSWER, answers_filtered)
+
+@database.connection_handler
+def remove_question(cursor, id:int):
+    file_path = "static/images/questions/" + str(id) + ".jpg" 
+    os.path.exists(file_path) and os.remove(file_path)
+    query = f"""
+        DELETE FROM question
+        WHERE id = {id}
+    """
+    cursor.execute(query)
 
 def remove_answer(id):
     answers = import_data_file(DATA_FILE_PATH_ANSWER)
