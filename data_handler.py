@@ -227,6 +227,7 @@ def update_question(question_id, question_date, question_title, question_message
                 question[6] = updated_image
     save_data(DATA_FILE_PATH_QUESTION, questions)
 
+
 @database.connection_handler
 def count_view(cursor, id:int):
     query = f"""
@@ -236,15 +237,6 @@ def count_view(cursor, id:int):
     """
     cursor.execute(query)
 
-# def count_view(id):
-#     questions = import_data_file(DATA_FILE_PATH_QUESTION)
-#     for question in questions:
-#         if question[0] == id:
-#             votes = question[2]
-#             votes = int(votes)
-#             votes += 1
-#             question[2] = str(votes)
-#             save_data(DATA_FILE_PATH_QUESTION, questions)    
 
 def sort_questions(questions, order_by, order_direction):
     reverse = True if order_direction == "desc" else False
