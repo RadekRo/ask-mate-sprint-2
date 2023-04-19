@@ -135,16 +135,17 @@ def add_answer(answer):
     answers = import_data_file(DATA_FILE_PATH_ANSWER)
     answers.append(answer)
     save_data(DATA_FILE_PATH_ANSWER, answers)
+    
 
-def add_vote_question(id):
-    questions = import_data_file(DATA_FILE_PATH_QUESTION)
-    for question in questions:
-        if question[0] == id:
-            votes = question[3]
-            votes = int(votes)
-            votes += 1
-            question[3] = str(votes)
-            save_data(DATA_FILE_PATH_QUESTION, questions)
+database.connection_handler
+def add_vote_question(cursor, id:int):
+    query = f"""
+        UPDATE question
+        SET vote_number = vote_number + 1
+        WHERE id = {id}
+    """
+    cursor.execute(query)
+
 
 def substract_vote_question(id):
     questions = import_data_file(DATA_FILE_PATH_QUESTION)
