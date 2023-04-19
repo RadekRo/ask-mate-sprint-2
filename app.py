@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template, request, redirect
 import data_handler
 from datetime import datetime 
+from typing import Dict
 
 
 app = Flask(__name__)
@@ -50,21 +51,28 @@ def route_answer_substract_vote(answer_id):
 
 @app.route('/ask-question', methods=["POST","GET"])
 def ask_question():
-    next_id = data_handler.get_next_id("question")
-    current_date = str(datetime.now())[0:19]
+    # current_date = str(datetime.now())[0:19]
     
-    if 'file' not in request.files:
-        image = ""
-    else:
-        file = request.files['file']
-        image = data_handler.save_file(file, next_id, "question")
+    # if 'file' not in request.files:
+    #     image = ""
+    # else:
+    #     file = request.files['file']
+    #     image = data_handler.save_file(file, next_id, "question")
+    #     image = '11.jpg'
 
-    if request.method == 'POST':
-        your_question = [next_id, current_date, "0", "0", request.form.get('title'), request.form.get('message'), image ]
-        data_handler.add_question(your_question)
-        redirect_dir = "/question/" + str(next_id) 
-        return redirect(redirect_dir)
-    return render_template("ask-question.html")
+    # if request.method == 'POST':
+        # your_question = [current_date, request.form.get('title'), request.form.get('message'), image ]
+        # your_question = dict(request.form)
+        # data_handler.add_question(your_question)
+        # redirect_dir = "/question/" + str(next_id) 
+        # return redirect(redirect_dir)
+    # return render_template("ask-question.html")
+
+    if request.method == 'GET':
+        return render_template('ask-question.html')
+    your_question = dict(request.form)
+    data_handler.add_question(your_question)
+    return redirect('/list')
 
 
 @app.route('/question/<id>/new-answer')

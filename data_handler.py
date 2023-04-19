@@ -2,6 +2,7 @@ from typing import List, Dict
 
 from psycopg2 import sql
 from psycopg2.extras import RealDictCursor
+from datetime import datetime 
 
 import database
 
@@ -77,22 +78,32 @@ def get_answers(cursor, question_id):
     cursor.execute(query)
     return cursor.fetchall()
 
-def get_next_id(selector):
-    if selector == "answer":
-        data_file = import_data_file(DATA_FILE_PATH_ANSWER )
-    elif selector == "question":
-        data_file = import_data_file(DATA_FILE_PATH_QUESTION)
-    try:
-        id = int(data_file[-1][0]) + 1
-    except:
-        id = 1
-    return str(id)
+# def get_next_id(selector):
+#     if selector == "answer":
+#         data_file = import_data_file(DATA_FILE_PATH_ANSWER )
+#     elif selector == "question":
+#         data_file = import_data_file(DATA_FILE_PATH_QUESTION)
+#     try:
+#         id = int(data_file[-1][0]) + 1
+#     except:
+#         id = 1
+#     return str(id)
 
 
-def add_question(question):
-    questions = import_data_file(DATA_FILE_PATH_QUESTION)
-    questions.append(question)
-    save_data(DATA_FILE_PATH_QUESTION, questions)
+# def add_question(question):
+#     questions = import_data_file(DATA_FILE_PATH_QUESTION)
+#     questions.append(question)
+#     save_data(DATA_FILE_PATH_QUESTION, questions)
+
+@database.connection_handler
+def add_question(your_question:dict, cursor):
+    # current_date = str(datetime.now())[0:19]
+    query = f"""
+        INSERT INTO question (title, message) 
+        VALUES ('{your_question["title"]}','{your_question["message"]}')
+    """
+    cursor.execute(query)
+
     
 
 def save_data(filename, questions, separator = ","):
