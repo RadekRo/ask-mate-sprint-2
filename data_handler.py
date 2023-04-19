@@ -96,7 +96,7 @@ def get_answers(cursor, question_id):
 #     save_data(DATA_FILE_PATH_QUESTION, questions)
 
 @database.connection_handler
-def add_question(your_question:dict, cursor):
+def add_question(cursor, your_question:dict):
     # current_date = str(datetime.now())[0:19]
     query = f"""
         INSERT INTO question (title, message) 
