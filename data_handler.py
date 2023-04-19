@@ -156,17 +156,6 @@ def substract_vote_question(id):
             question[3] = str(votes)
             save_data(DATA_FILE_PATH_QUESTION, questions)
 
-def add_vote_answer(answer_id):
-    answers = import_data_file(DATA_FILE_PATH_ANSWER)
-    for answer in answers:
-        if answer[0] == answer_id:
-            votes_answer = answer[2]
-            votes_answer = int(votes_answer)
-            votes_answer += 1
-            answer[2] = str(votes_answer)
-            save_data(DATA_FILE_PATH_ANSWER, answers)
-            return answers
-
 
 @database.connection_handler
 def add_vote_answer(cursor, id:int):
@@ -178,17 +167,15 @@ def add_vote_answer(cursor, id:int):
     cursor.execute(query)
 
 
-def substract_vote_answer(answer_id):
-    answers = import_data_file(DATA_FILE_PATH_ANSWER)
-    for answer in answers:
-        if answer[0] == answer_id:
-            votes_answer = answer[2]
-            votes_answer = int(votes_answer)
-            votes_answer -= 1
-            answer[2] = str(votes_answer)
-            save_data(DATA_FILE_PATH_ANSWER, answers)
-            return answers
- 
+@database.connection_handler
+def substract_vote_answer(cursor, id:int):
+    query = f"""
+        UPDATE answer
+        SET vote_number = vote_number - 1
+        WHERE id = {id}
+    """
+    cursor.execute(query)
+
 # def remove_question(id):
 #     questions = import_data_file(DATA_FILE_PATH_QUESTION)
 #     answers = import_data_file(DATA_FILE_PATH_ANSWER)
