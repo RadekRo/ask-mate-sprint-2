@@ -2,17 +2,10 @@ from flask import Flask
 from flask import render_template, request, redirect
 import data_handler
 from datetime import datetime 
-from typing import Dict
 
 
 app = Flask(__name__)
 
-
-# @app.route('/')
-# @app.route('/list')
-# def route_list():
-#     all_questions = data_handler.get_all_questions()
-#     return render_template("list.html", all_questions = all_questions)
 
 @app.route('/')
 @app.route('/list')
@@ -51,7 +44,6 @@ def route_answer_substract_vote(answer_id):
 
 @app.route('/ask-question', methods=["POST","GET"])
 def ask_question():
-    # current_date = str(datetime.now())[0:19]
     
     # if 'file' not in request.files:
     #     image = ""
@@ -59,14 +51,6 @@ def ask_question():
     #     file = request.files['file']
     #     image = data_handler.save_file(file, next_id, "question")
     #     image = '11.jpg'
-
-    # if request.method == 'POST':
-        # your_question = [current_date, request.form.get('title'), request.form.get('message'), image ]
-        # your_question = dict(request.form)
-        # data_handler.add_question(your_question)
-        # redirect_dir = "/question/" + str(next_id) 
-        # return redirect(redirect_dir)
-    # return render_template("ask-question.html")
 
     if request.method == 'GET':
         return render_template('ask-question.html')
@@ -81,22 +65,20 @@ def route_answer(id):
 
 
 @app.route('/new-answer', methods=["POST", "GET"])
-def new_answer():
-    next_id = data_handler.get_next_id("answer")
-    current_date = str(datetime.now())[0:19]
+def new_answer(id):
 
-    if 'file' not in request.files:
-        image = ""
-    else:
-        file = request.files['file']
-        image = data_handler.save_file(file, next_id, "answer")
+    # if 'file' not in request.files:
+    #     image = ""
+    # else:
+    #     file = request.files['file']
+    #     image = data_handler.save_file(file, next_id, "answer")
 
-    if request.method == 'POST':
-        your_answer = [next_id, current_date, "0", str(request.form.get('id')), request.form.get('new-answer'), image ]
-        redirect_dir = "/question/" + str(request.form.get('id'))
-        data_handler.add_answer(your_answer)
-        return redirect(redirect_dir)
-    return render_template("new-answer.html")
+    if request.method == 'GET':
+        return render_template("new-answer.html", id=question_id)
+    question_id = id
+    your_answer = dict(request.form)
+    data_handler.add_answer(question_id, your_answer)
+    return redirect('/list', question_id=id)
 
 @app.route('/question/<id>/vote_add', methods=["POST", "GET"])
 def route_vote_add(id):
@@ -152,6 +134,5 @@ def update_question():
 if __name__ == '__main__':
     app.run()
 
-# for run the python's flask server
-# use> python -m flask run
-# for automatic changes and debugger use> "python -m flask --debug run"
+# for run the app
+# use> python app.py

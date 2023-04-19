@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="question-list question-txt ">
-        <form action="/new-answer" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="id" value={{id}}>
+        <form action="id" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="id" value={{question.id}}>
         <p>
-            <label class="answer-title" for="new-answer">Answer:</label><br/>
-            <textarea id="new-answer" name="new-answer" rows="4" cols="50"></textarea>
+            <label class="message" for="message">Answer:</label><br/>
+            <textarea id="message" name="message" rows="4" cols="50"></textarea>
         </p>
         <p>
             <label class="add-img" for="image">Image (only jpg files allowed):</label><br/>

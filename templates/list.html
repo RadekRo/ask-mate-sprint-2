@@ -4,7 +4,7 @@
 <div class="questions-list">
     <table class="table table-borderless table-striped">
         <tr class="table-title">
-            <th>id</th>
+            <!-- <th>id</th> -->
             <th>Submission time</th>
             <th>View number</th>
             <th>Vote number</th>
@@ -14,11 +14,11 @@
         </tr>
             {% for question in questions %}
         <tr>
-            <td><a href="{{ url_for('route_question',id=question.id)}}">{{question.id}}</a></td>
+            <!-- <td>{{question.id}}</td> -->
             <td>{{question.submission_time}}</td>
             <td>{{question.view_number}}</td>
             <td>{{question.vote_number}}</td>
-            <td>{{question.title}}</td>
+            <td><a href="{{ url_for('route_question',id=question.id)}}">{{question.title}}</a></td>
             <td>{{question.message}}</td>
             <!-- <td>{{question[6]}}</td>  -->
         </tr>
