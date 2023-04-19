@@ -97,10 +97,10 @@ def get_answers(cursor, question_id):
 
 @database.connection_handler
 def add_question(cursor, your_question:dict):
-    # current_date = str(datetime.now())[0:19]
+    current_date = str(datetime.now())[0:19]
     query = f"""
-        INSERT INTO question (title, message) 
-        VALUES ('{your_question["title"]}','{your_question["message"]}')
+        INSERT INTO question (submission_time, title, message) 
+        VALUES ('{current_date}', '{your_question["title"]}','{your_question["message"]}')
     """
     cursor.execute(query)
 
