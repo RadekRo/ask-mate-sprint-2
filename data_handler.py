@@ -70,7 +70,7 @@ def get_answer(cursor, id):
 @database.connection_handler
 def get_answers(cursor, question_id):
     query = f"""
-        SELECT submission_time, vote_number, question_id, message, image
+        SELECT id, submission_time, vote_number, question_id, message, image
         FROM answer
         WHERE question_id = {question_id}
         

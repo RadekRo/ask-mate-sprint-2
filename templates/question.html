@@ -10,11 +10,11 @@
                 <img class="pictures" src={{question.image}} style="max-width: 150px"/>
             </div>
         {% endif %}
-        <a class="add-answer" href="{{ url_for('route_answer',id=question[0])}}">Add new answer</a><br/><br/>
+        <a class="add-answer" href="{{ url_for('route_answer', id=question[0])}}">Add new answer</a><br/><br/>
         <p class="vote-question">Number of votes already for this question: {{question[3]}}</p>
         <div class="del-edit">
-            <a class="delete" href="{{ url_for('delete_question',id=question.id)}}">DELETE QUESTION</a><br/>
-            <a class="edit" href="{{ url_for('edit_question',id=question[0])}}">EDIT QUESTION</a><br /><br/>
+            <a class="delete" href="{{ url_for('delete_question', id=question.id)}}">DELETE QUESTION</a><br/>
+            <a class="edit" href="{{ url_for('edit_question', id=question[0])}}">EDIT QUESTION</a><br /><br/>
         </div>
         </div>
 </div>
@@ -30,12 +30,12 @@
             <img src={{answer.image}} style="max-width: 200px"/>
             {% endif %}
             <div class="buttons">
-            <form method="post" action="{{ url_for('route_answer_add_vote', answer_id=answer[0])}}">
+            <form method="post" action="{{ url_for('route_answer_add_vote', answer_id=answer.id)}}">
             <button class="plus" type="submit">+</button>
-            <input type="hidden" name="id" value={{question[0]}}></form>
-            <form method="post" action="{{ url_for('route_answer_substract_vote', answer_id=answer[0])}}">
+            <input type="hidden" name="id" value={{question.id}}></form>
+            <form method="post" action="{{ url_for('route_answer_substract_vote', answer_id=answer.id)}}">
             <button class="minus" type="submit">-</button>
-            <input type="hidden" name="id" value={{question[0]}}></form>
+            <input type="hidden" name="id" value={{question.id}}></form>
             </div>
             <br/><center>Number of votes already for this answer: <b>{{answer.vote_number}}</b> </center><br/>
             <a class="delete-answer" href="{{ url_for('delete_answer',id=answer[0],ids=question[0])}}">DELETE ANSWER</a>
