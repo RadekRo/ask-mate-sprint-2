@@ -19,7 +19,7 @@
             <td>{{question.view_number}}</td>
             <td>{{question.vote_number}}</td>
             <td><a href="{{ url_for('route_question',id=question.id)}}">{{question.title}}</a></td>
-            <td>{{question.message}}</td>
+            <td><a href="{{ url_for('route_question',id=question.id)}}">{{question.message}}</td>
             <!-- <td>{{question[6]}}</td>  -->
         </tr>
         {%endfor%}

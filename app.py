@@ -63,6 +63,10 @@ def ask_question():
 def route_answer(id):
     return render_template("new-answer.html", id=id)
 
+@app.route('/question/<id>/new-comment')
+def route_comment(id):
+    return render_template("new-comment.html", id=id)
+
 
 @app.route('/new-answer', methods=["POST", "GET"])
 def new_answer():
@@ -129,6 +133,17 @@ def update_question():
 
     redirect_dir = "/question/" + str(question_id)
     return redirect(redirect_dir)
+
+@app.route('/question/<id>/new-comment', methods=["POST", "GET"])
+def add_comment_question(id):
+
+    if request.method == 'GET':
+        return render_template('new-comment.html')
+    question_comment = dict(request.form)
+    data_handler.add_comment_question(question_comment)
+    redirect_dir = "/question/" + id
+    return redirect(redirect_dir)
+
 
 
 if __name__ == '__main__':

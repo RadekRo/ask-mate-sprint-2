@@ -256,3 +256,10 @@ a:active {
   border-radius: 12px;
   margin-bottom: 5%;
 }
+
+.add-new-comment{
+  padding: 2%;
+  background: #2ea30d92;
+  border-radius: 12px;
+  margin-bottom: 5%;
+}
