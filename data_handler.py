@@ -5,23 +5,12 @@ from psycopg2.extras import RealDictCursor
 from datetime import datetime 
 
 import database
-
-
-@database.connection_handler
-def get_all_users(cursor):
-    query = """
-        SELECT * FROM sandbox
-       """
-    cursor.execute(query)
-    return cursor.fetchall()
-
-
 import csv, os
 
 # DATA_FILE_PATH_ANSWER = 'data/answer.csv'
 # DATA_FILE_PATH_QUESTION = 'data/question.csv'
-# UPLOAD_FOLDER_FOR_QUESTIONS = 'static/images/questions/'
-# UPLOAD_FOLDER_FOR_ANSWERS = 'static/images/answers/'
+UPLOAD_FOLDER_FOR_QUESTIONS = 'static/images/questions/'
+UPLOAD_FOLDER_FOR_ANSWERS = 'static/images/answers/'
 ALLOWED_EXTENSIONS = {'jpg'}
 
 
