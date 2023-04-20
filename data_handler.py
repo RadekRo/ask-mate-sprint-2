@@ -118,11 +118,11 @@ def add_answer(cursor, your_answer:dict):
     cursor.execute(query)
 
 @database.connection_handler
-def add_comment_question(cursor, question_comment):
+def add_comment_question(cursor, question_comment, id:int):
     current_date = str(datetime.now())[0:19]
     query = f"""
-        INSERT INTO comment (message, submission_time) 
-        VALUES ('{question_comment}', 1, '{current_date}')
+        INSERT INTO comment (message) 
+        VALUES ('{question_comment}')
     """
     cursor.execute(query)
 

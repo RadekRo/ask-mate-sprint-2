@@ -140,7 +140,7 @@ def add_comment_question(id):
     if request.method == 'GET':
         return render_template('new-comment.html')
     question_comment = dict(request.form)
-    data_handler.add_comment_question(question_comment)
+    data_handler.add_comment_question(question_comment, id)
     redirect_dir = "/question/" + id
     return redirect(redirect_dir)
 
