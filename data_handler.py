@@ -61,7 +61,8 @@ def get_answers(cursor, question_id):
     query = f"""
         SELECT id, submission_time, vote_number, question_id, message, image
         FROM answer
-        WHERE question_id = {question_id}  
+        WHERE question_id = {question_id}
+        ORDER by id  
        """
     cursor.execute(query)
     return cursor.fetchall()
