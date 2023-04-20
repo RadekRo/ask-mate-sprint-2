@@ -65,7 +65,7 @@ def route_answer(id):
 
 
 @app.route('/new-answer', methods=["POST", "GET"])
-def new_answer(id):
+def new_answer():
 
     # if 'file' not in request.files:
     #     image = ""
@@ -74,11 +74,11 @@ def new_answer(id):
     #     image = data_handler.save_file(file, next_id, "answer")
 
     if request.method == 'GET':
-        return render_template("new-answer.html", id=question_id)
-    question_id = id
+        return render_template("new-answer.html")
     your_answer = dict(request.form)
-    data_handler.add_answer(question_id, your_answer)
-    return redirect('/list', question_id=id)
+    data_handler.add_answer(your_answer)
+    redirect_dir = "/question/" + your_answer['id']
+    return redirect(redirect_dir)
 
 @app.route('/question/<id>/vote_add', methods=["POST", "GET"])
 def route_vote_add(id):

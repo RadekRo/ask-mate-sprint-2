@@ -119,11 +119,11 @@ def save_file(file, current_id, selector):
 #     save_data(DATA_FILE_PATH_ANSWER, answers)
 
 @database.connection_handler
-def add_answer(cursor, question_id, your_answer:dict):
+def add_answer(cursor, your_answer:dict):
     current_date = str(datetime.now())[0:19]
     query = f"""
         INSERT INTO answer (submission_time, question_id, message) 
-        VALUES ('{current_date}', 'question_id', '{your_answer["message"]}')
+        VALUES ('{current_date}', '{your_answer["id"]}', '{your_answer["message"]}')
     """
     cursor.execute(query)
 

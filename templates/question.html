@@ -10,7 +10,7 @@
                 <img class="pictures" src={{question.image}} style="max-width: 150px"/>
             </div>
         {% endif %}
-        <a class="add-answer" href="{{ url_for('route_answer', id=question[0])}}">Add new answer</a><br/><br/>
+        <a class="add-answer" href="{{ url_for('route_answer', id=question.id)}}">Add new answer</a><br/><br/>
         <p class="vote-question">Number of votes already for this question: {{question[3]}}</p>
         <div class="del-edit">
             <a class="delete" href="{{ url_for('delete_question', id=question.id)}}">DELETE QUESTION</a><br/>
