@@ -5,9 +5,9 @@
     <b class="question-title">{{question.title}}</b>
     <div class="question-txt">
         <p class="txt" >{{question.message}}</p>
-        {% if question.image != "" %}
+        {% if question.image != "" and question.image != None %}
             <div class="container">
-                <img class="pictures" src={{question.image}} style="max-width: 150px"/>
+                <img class="pictures" src="{{question.image}}" style="max-width: 150px"/>
             </div>
         {% endif %}
         <a class="add-answer" href="{{ url_for('route_answer', id=question.id)}}">Add new answer</a><br/><br/>
@@ -25,9 +25,9 @@
     {% for answer in answers %}
         <p class="answer">
             {{answer.message}}
-            {% if answer.image != "" %}
-            <br/>
-            <img src={{answer.image}} style="max-width: 200px"/>
+            {% if answer.image != "" and answer.image != None %}
+                <br/>
+                <img src={{answer.image}} style="max-width: 200px"/>
             {% endif %}
             <div class="buttons">
             <form method="post" action="{{ url_for('route_answer_add_vote', answer_id=answer.id)}}">
@@ -38,9 +38,9 @@
             <input type="hidden" name="id" value={{question.id}}></form>
             </div>
             <br/><center>Number of votes already for this answer: <b>{{answer.vote_number}}</b> </center><br/>
-            <a class="delete-answer" href="{{ url_for('delete_answer',id=answer[0],ids=question[0])}}">DELETE ANSWER</a>
+            <a class="delete-answer" href="{{ url_for('delete_answer',id=answer.id,ids=question.id)}}">DELETE ANSWER</a>
         </p>
     {% endfor %}
 </div>
-{% endif %}
+<!-- {% endif %} -->
 {% endblock %}
