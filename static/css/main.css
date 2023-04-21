@@ -281,3 +281,9 @@ a:active {
   border-radius: 12px;
   margin-bottom: 5%;
 }
+
+.comment-title-answer {
+  display: flex;
+  justify-content: center;
+  background-color: #10390492;
+}

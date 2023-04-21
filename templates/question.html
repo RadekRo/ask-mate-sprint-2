@@ -17,7 +17,7 @@
             <a class="edit" href="{{ url_for('edit_question', id=question[0])}}">EDIT QUESTION</a><br /><br/>
         </div>
         <div>
-            <b class="comment-title">COMMENTS</b><br/>
+            <b class="comment-title">COMMENTS TO QUESTION</b><br/>
         {% for comment in comments %}  
             <p class="comment">
                 Submitted: {{comment.submission_time}}<br/>
@@ -31,10 +31,14 @@
 <!-- {% if answers|length > 0 %} -->
 <div class="question-list row">
     <br />
-    <b class="answer-title">ANSWERS</b><br /><br/>
+    <b class="answer-title">ANSWERS</b><br/>
     {% for answer in answers %}
+    {% for comment in comments %}
         <p class="answer">
             {{answer.message}}<br/><br/>
+            <b class="comment-title-answer">COMMENTS TO ANSWER</b><br/>
+            {{comment.message}}<br/><br/>
+            {% endfor %}
             {% if answer.image != "" and answer.image != None %}
                 <br/>
                 <img src={{answer.image}} style="max-width: 200px"/>

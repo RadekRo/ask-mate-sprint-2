@@ -68,6 +68,10 @@ def route_answer(id):
 def route_comment(id):
     return render_template("new-comment.html", id=id)
 
+@app.route('/question/<id>/<answer_id>/new-comment_answer')
+def route_comment_answer(id, answer_id):
+    return render_template("new-comment_answer.html", id=id, answer_id=answer_id)
+
 
 @app.route('/new-answer', methods=["POST", "GET"])
 def new_answer():
