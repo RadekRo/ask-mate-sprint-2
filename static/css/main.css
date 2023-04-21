@@ -259,7 +259,18 @@ a:active {
 
 .add-new-comment{
   padding: 2%;
-  background: #2ea30d92;
+  background: #0b397e92;
   border-radius: 12px;
   margin-bottom: 5%;
+}
+
+.comment-title {
+  display: flex;
+  justify-content: center;
+  background-color: #0b397e92;
+}
+
+.comment {
+  background-color: rgba(201, 193, 193, 0.399);
+  padding: 2% 2%;
 }

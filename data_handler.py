@@ -67,6 +67,17 @@ def get_answers(cursor, question_id):
     cursor.execute(query)
     return cursor.fetchall()
 
+@database.connection_handler
+def get_comments(cursor, question_id):
+    query = f"""
+        SELECT id, question_id, answer_id, message, submission_time, edited_number
+        FROM comment
+        WHERE question_id = {question_id}
+        ORDER by id DESC
+       """
+    cursor.execute(query)
+    return cursor.fetchall()
+
 
 @database.connection_handler
 def add_question(cursor, your_question:dict):
