@@ -137,6 +137,15 @@ def add_comment_question(cursor, question_comment, id:int):
     """
     cursor.execute(query)
 
+@database.connection_handler
+def add_comment_answer(cursor, question_comment, id:int, answer_id:int):
+    current_date = str(datetime.now())[0:19]
+    query = f"""
+        INSERT INTO comment (question_id, answer_id, message, submission_time) 
+        VALUES ({id}, {answer_id}, '{question_comment}', '{current_date}')
+    """
+    cursor.execute(query)
+
 
 database.connection_handler
 def add_vote_question(cursor, id:int):

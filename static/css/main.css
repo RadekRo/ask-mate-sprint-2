@@ -274,3 +274,10 @@ a:active {
   background-color: rgba(201, 193, 193, 0.399);
   padding: 2% 2%;
 }
+
+.add-new-comment-answer{
+  padding: 2%;
+  background: #2ea30d92;
+  border-radius: 12px;
+  margin-bottom: 5%;
+}

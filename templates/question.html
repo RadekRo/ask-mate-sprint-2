@@ -34,11 +34,12 @@
     <b class="answer-title">ANSWERS</b><br /><br/>
     {% for answer in answers %}
         <p class="answer">
-            {{answer.message}}
+            {{answer.message}}<br/><br/>
             {% if answer.image != "" and answer.image != None %}
                 <br/>
                 <img src={{answer.image}} style="max-width: 200px"/>
             {% endif %}
+            <a class="add-new-comment-answer" href="{{ url_for('add_comment_answer', id=question.id, answer_id=answer.id)}}">Add your comment to this answer</a><br/><br/>
             <div class="buttons">
             <form method="post" action="{{ url_for('route_answer_add_vote', answer_id=answer.id)}}">
             <button class="plus" type="submit">+</button>

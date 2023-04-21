@@ -145,6 +145,15 @@ def add_comment_question(id):
     redirect_dir = "/question/" + id
     return redirect(redirect_dir)
 
+@app.route('/question/<id>/<answer_id>/new-comment_answer', methods=["POST", "GET"])
+def add_comment_answer(id, answer_id):
+
+    if request.method == 'GET':
+        return render_template('new-comment_answer.html')
+    answer_comment = request.form.get('message')
+    data_handler.add_comment_answer(answer_comment, id, answer_id)
+    redirect_dir = "/question/" + id
+    return redirect(redirect_dir)
 
 
 if __name__ == '__main__':
