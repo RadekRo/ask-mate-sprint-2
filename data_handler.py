@@ -13,11 +13,11 @@ UPLOAD_FOLDER_FOR_ANSWERS = 'static/images/answers/'
 
 
 @database.connection_handler
-def get_all_questions(cursor):
-    query = """
+def get_all_questions(cursor, order_by = 'submission_time', order_direction = 'DESC'):
+    query = f"""
         SELECT id, submission_time, view_number, vote_number, title, message, image
         FROM question
-        ORDER BY submission_time DESC
+        ORDER BY {order_by} {order_direction}
        """
     cursor.execute(query)
     return cursor.fetchall()
