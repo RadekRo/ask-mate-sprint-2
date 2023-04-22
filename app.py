@@ -52,8 +52,8 @@ def ask_question():
     if request.method == 'GET':
         return render_template('ask-question.html')
     
-    file = request.files['file']
-    image = data_handler.save_question_image(file)
+    file_name = request.files['file']
+    image = data_handler.save_question_image(file_name)
     your_question = dict(request.form)
     current_date = util.get_current_date()
     data_handler.add_question(current_date, your_question, image)
@@ -81,16 +81,12 @@ def new_answer():
     if request.method == 'GET':
         return render_template("new-answer.html")
 
+    file_name = request.files['file']
+    image = data_handler.save_answer_image(file_name)
     your_answer = dict(request.form)
-    
-    # if 'file' not in request.files:
-    #     image = ""
-    # else:
-    #     file = request.files['file']
-    #     image = data_handler.save_file(file, next_id, "answer")
-
-    data_handler.add_answer(your_answer)
-    redirect_dir = "/question/" + your_answer['id']
+    current_date = util.get_current_date()
+    data_handler.add_answer(current_date, your_answer, image)
+    redirect_dir = "/question/" + your_answer['question_id']
     return redirect(redirect_dir)
 
 @app.route('/question/<id>/vote_add', methods=["POST", "GET"])

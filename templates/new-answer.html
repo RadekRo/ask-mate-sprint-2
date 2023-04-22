@@ -2,7 +2,7 @@
 {% block content %}
     <div class="question-list question-txt ">
         <form action="/new-answer" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="id" value={{id}}>
+            <input type="hidden" name="question_id" value={{id}}>
         <p>
             <label class="message" for="message">Answer:</label><br/>
             <textarea id="message" name="message" rows="4" cols="50"></textarea>

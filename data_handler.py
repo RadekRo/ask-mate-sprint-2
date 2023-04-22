@@ -88,7 +88,7 @@ def add_question(cursor, current_date:str, your_question:dict, image:str):
         """
         cursor.execute(query)
     except:
-        raise ValueError("Wrong values types provided for sql query.")
+        raise ValueError("Wrong values types provided for database input.")
 
 
 def save_question_image(file):
@@ -100,15 +100,25 @@ def save_question_image(file):
     else:
         return "no-image"
 
+def save_answer_image(file):
+    if file.filename != "":
+        file_name = util.get_unique_file_name()
+        file_name_with_extension =  file_name + ".jpg"
+        file.save(os.path.join(UPLOAD_FOLDER_FOR_ANSWERS, file_name_with_extension))
+        return UPLOAD_FOLDER_FOR_ANSWERS + file_name_with_extension
+    else:
+        return "no-image"
 
 @database.connection_handler
-def add_answer(cursor, your_answer:dict):
-    current_date = str(datetime.now())[0:19]
-    query = f"""
-        INSERT INTO answer (submission_time, question_id, message) 
-        VALUES ('{current_date}', '{your_answer["id"]}', '{your_answer["message"]}')
-    """
-    cursor.execute(query)
+def add_answer(cursor, current_date:str, your_answer:dict, image:str):
+    try:
+        query = f"""
+            INSERT INTO answer (submission_time, question_id, message, image) 
+            VALUES ('{current_date}', '{your_answer["question_id"]}', '{your_answer["message"]}', '{image}')
+        """
+        cursor.execute(query)
+    except:
+        raise ValueError("Wrong values types provided for database input.")
 
 
 @database.connection_handler
