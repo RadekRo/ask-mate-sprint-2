@@ -98,7 +98,7 @@ def save_question_image(file):
         file.save(os.path.join(UPLOAD_FOLDER_FOR_QUESTIONS, file_name_with_extension))
         return UPLOAD_FOLDER_FOR_QUESTIONS + file_name_with_extension
     else:
-        return ""
+        return "no-image"
 
 
 @database.connection_handler
@@ -210,6 +210,28 @@ def remove_question(cursor, id:int, file_path:str):
     """
     cursor.execute(query)
     #TODO remove answer connected with question
+
+@database.connection_handler
+def get_connected_answers(cursor, id:int):
+    
+    query = f"""
+        SELECT * FROM answer 
+        WHERE question_id = {id}
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+@database.connection_handler
+def remove_selected_answers(cursor, answers):
+    pass   
+#     for answer in selected_answers:
+#         os.path.exists(answer['image']) and os.remove(answer['image'])
+#         query_remove = f"""
+#         DELETE FROM answer 
+#         WHERE id = {answer['id']}
+#         """
+#         cursor.execute(query_remove)
+        
 
 def remove_answer(id):
     answers = import_data_file(DATA_FILE_PATH_ANSWER)

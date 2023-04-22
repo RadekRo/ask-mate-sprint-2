@@ -52,11 +52,8 @@ def ask_question():
     if request.method == 'GET':
         return render_template('ask-question.html')
     
-    if 'file' not in request.files:
-        image = ""
-    else:
-        file = request.files['file']
-        image = data_handler.save_question_image(file)
+    file = request.files['file']
+    image = data_handler.save_question_image(file)
     your_question = dict(request.form)
     current_date = util.get_current_date()
     data_handler.add_question(current_date, your_question, image)
