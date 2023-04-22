@@ -12,15 +12,6 @@ UPLOAD_FOLDER_FOR_QUESTIONS = 'static/images/questions/'
 UPLOAD_FOLDER_FOR_ANSWERS = 'static/images/answers/'
 
 
-# def import_data_file(filename):
-#     questions = list()
-#     with open(filename, 'r') as file:
-#         csvreader = csv.reader(file)
-#         for row in csvreader:
-#             questions.append(row)
-#     return questions
-
-
 @database.connection_handler
 def get_all_questions(cursor):
     query = """
@@ -86,14 +77,8 @@ def add_question(cursor, current_date:str, your_question:dict, image:str):
         """
         cursor.execute(query)
     except:
-        raise ValueError("Wrong values type provided for sql query.")
+        raise ValueError("Wrong values types provided for sql query.")
 
-    
-# def save_data(filename, questions, separator = ","):
-#    with open(filename, "w") as file:
-#         for record in questions:
-#             row = separator.join(record)
-#             file.write(row + "\n")
 
 def save_question_image(file):
 
