@@ -5,7 +5,7 @@
     <b class="question-title">{{question.title}}</b>
     <div class="question-txt">
         <p class="txt" >{{question.message}}</p>
-        {% if question.image != "" and question.image != None %}
+        {% if question.image != "" %}
             <div class="container">
                 <img class="pictures" src="{{question.image}}" style="max-width: 150px"/>
             </div>
