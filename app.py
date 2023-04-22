@@ -23,6 +23,7 @@ def route_question(id):
     data_handler.count_view(id)
     return render_template("question.html", question = question, answers = answers, comments = comments)
 
+
 @app.route('/answer/<answer_id>/answer_add_vote', methods=["POST", "GET"])
 def route_answer_add_vote(answer_id):
     data_handler.add_vote_answer(answer_id)
@@ -60,9 +61,11 @@ def ask_question():
 def route_answer(id):
     return render_template("new-answer.html", id=id)
 
+
 @app.route('/question/<id>/new-comment')
 def route_comment(id):
     return render_template("new-comment.html", id=id)
+
 
 @app.route('/question/<id>/<answer_id>/new-comment_answer')
 def route_comment_answer(id, answer_id):

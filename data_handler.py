@@ -11,6 +11,7 @@ import util
 UPLOAD_FOLDER_FOR_QUESTIONS = 'static/images/questions/'
 UPLOAD_FOLDER_FOR_ANSWERS = 'static/images/answers/'
 
+
 # def import_data_file(filename):
 #     questions = list()
 #     with open(filename, 'r') as file:
@@ -78,11 +79,14 @@ def get_comments(cursor, question_id):
 
 @database.connection_handler
 def add_question(cursor, current_date:str, your_question:dict, image:str):
-    query = f"""
-        INSERT INTO question (submission_time, title, message, image) 
-        VALUES ('{current_date}', '{your_question["title"]}','{your_question["message"]}', '{image}')
-    """
-    cursor.execute(query)
+    try:
+        query = f"""
+            INSERT INTO question (submission_time, title, message, image) 
+            VALUES ('{current_date}', '{your_question["title"]}','{your_question["message"]}', '{image}')
+        """
+        cursor.execute(query)
+    except:
+        raise ValueError("Wrong values type provided for sql query.")
 
     
 # def save_data(filename, questions, separator = ","):
@@ -91,20 +95,13 @@ def add_question(cursor, current_date:str, your_question:dict, image:str):
 #             row = separator.join(record)
 #             file.write(row + "\n")
 
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
 def save_question_image(file):
 
-    upload_folder = UPLOAD_FOLDER_FOR_QUESTIONS
     if file.filename != "":
         file_name = util.get_unique_file_name()
         file_name_with_extension =  file_name + ".jpg"
-        print(file)
         file.save(os.path.join(UPLOAD_FOLDER_FOR_QUESTIONS, file_name_with_extension))
-        return "/" + upload_folder + file_name_with_extension
+        return "/" + UPLOAD_FOLDER_FOR_QUESTIONS + file_name_with_extension
     else:
         return ""
     

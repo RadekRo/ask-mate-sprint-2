@@ -11,7 +11,7 @@ def get_unique_file_name():
     letters = string.ascii_lowercase
     
     file_name_base =  int(datetime.timestamp(current_date))
-    random_file_name_ending = ''.join(random.choice(letters) for i in range(6))
+    random_file_name_ending = ''.join(random.choice(letters) for _ in range(6))
     
     unique_file_name = str(file_name_base) + "-" + random_file_name_ending
     
