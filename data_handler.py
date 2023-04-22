@@ -10,10 +10,13 @@ import util
 
 UPLOAD_FOLDER_FOR_QUESTIONS = 'static/images/questions/'
 UPLOAD_FOLDER_FOR_ANSWERS = 'static/images/answers/'
+QUESTION_SORT_OPTIONS = ['submission_time', 'view_number', 'vote_number', 'title', 'message']
 
 
 @database.connection_handler
-def get_all_questions(cursor, order_by = 'submission_time', order_direction = 'DESC'):
+def get_all_questions(cursor, order_by, order_direction):
+    order_by = 'submission_time' if order_by not in QUESTION_SORT_OPTIONS else order_by
+    order_direction = 'DESC' if order_direction not in QUESTION_SORT_OPTIONS else order_direction
     query = f"""
         SELECT id, submission_time, view_number, vote_number, title, message, image
         FROM question
