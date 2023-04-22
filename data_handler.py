@@ -17,7 +17,7 @@ def get_all_questions(cursor):
     query = """
         SELECT id, submission_time, view_number, vote_number, title, message, image
         FROM question
-        ORDER BY id
+        ORDER BY submission_time DESC
        """
     cursor.execute(query)
     return cursor.fetchall()
