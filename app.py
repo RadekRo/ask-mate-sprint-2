@@ -42,18 +42,17 @@ def route_answer_substract_vote(answer_id):
 @app.route('/ask-question', methods=["POST","GET"])
 def ask_question():
     
-    # if 'file' not in request.files:
-    #     image = ""
-    # else:
-    #     file = request.files['file']
-    #     image = data_handler.save_file(file, next_id, "question")
-    #     image = '11.jpg'
-
     if request.method == 'GET':
         return render_template('ask-question.html')
+    
+    if 'file' not in request.files:
+        image = ""
+    else:
+        file = request.files['file']
+        image = data_handler.save_question_image(file)
     your_question = dict(request.form)
     current_date = util.get_current_date()
-    data_handler.add_question(current_date, your_question)
+    data_handler.add_question(current_date, your_question, image)
     return redirect('/list')
 
 
@@ -73,15 +72,17 @@ def route_comment_answer(id, answer_id):
 @app.route('/new-answer', methods=["POST", "GET"])
 def new_answer():
 
+    if request.method == 'GET':
+        return render_template("new-answer.html")
+
+    your_answer = dict(request.form)
+    
     # if 'file' not in request.files:
     #     image = ""
     # else:
     #     file = request.files['file']
     #     image = data_handler.save_file(file, next_id, "answer")
 
-    if request.method == 'GET':
-        return render_template("new-answer.html")
-    your_answer = dict(request.form)
     data_handler.add_answer(your_answer)
     redirect_dir = "/question/" + your_answer['id']
     return redirect(redirect_dir)
