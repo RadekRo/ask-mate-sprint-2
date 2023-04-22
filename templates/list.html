@@ -12,10 +12,34 @@
                     <a href="/list?order_by=submission_time&order_direction=ASC">Submission time</a>
                 {% endif %}
             </th>
-            <th>View number</th>
-            <th>Vote number</th>
-            <th>Title</th>
-            <th>Message </th>
+            <th>
+                {% if order_by == "view_number" and order_direction == "DESC" %}
+                    <a href="/list?order_by=view_number&order_direction=ASC">View number</a>
+                {% else %}
+                    <a href="/list?order_by=view_number&order_direction=DESC">View number</a>
+                {% endif %}
+            </th>
+            <th>
+                {% if order_by == "vote_number" and order_direction == "DESC" %}
+                    <a href="/list?order_by=vote_number&order_direction=ASC">Vote number</a>
+                {% else %}
+                    <a href="/list?order_by=vote_number&order_direction=DESC">Vote number</a>
+                {% endif %}
+            </th>
+            <th>
+                {% if order_by == "title" and order_direction == "ASC" %}
+                    <a href="/list?order_by=title&order_direction=DESC">Title</a>
+                {% else %}
+                    <a href="/list?order_by=title&order_direction=ASC">Title</a>
+                {% endif %}
+            </th>
+            <th>
+                {% if order_by == "message" and order_direction == "ASC" %}
+                    <a href="/list?order_by=message&order_direction=DESC">Message</a>
+                {% else %}
+                    <a href="/list?order_by=message&order_direction=ASC">Message</a>
+                {% endif %}
+            </th>
             <!--<th>Image</th>-->
         </tr>
             {% for question in questions %}
