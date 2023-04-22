@@ -7,8 +7,6 @@ from datetime import datetime
 import database
 import csv, os
 
-# DATA_FILE_PATH_ANSWER = 'data/answer.csv'
-# DATA_FILE_PATH_QUESTION = 'data/question.csv'
 UPLOAD_FOLDER_FOR_QUESTIONS = 'static/images/questions/'
 UPLOAD_FOLDER_FOR_ANSWERS = 'static/images/answers/'
 ALLOWED_EXTENSIONS = {'jpg'}
