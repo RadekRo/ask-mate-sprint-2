@@ -6,7 +6,7 @@ def get_current_date():
     date_and_time_without_seconds = str(datetime.now())[0:19]
     return date_and_time_without_seconds
 
-def create_file_name():
+def get_unique_file_name():
     current_date = datetime.now()
     letters = string.ascii_lowercase
     
