@@ -12,13 +12,13 @@ UPLOAD_FOLDER_FOR_ANSWERS = 'static/images/answers/'
 ALLOWED_EXTENSIONS = {'jpg'}
 
 
-def import_data_file(filename):
-    questions = list()
-    with open(filename, 'r') as file:
-        csvreader = csv.reader(file)
-        for row in csvreader:
-            questions.append(row)
-    return questions
+# def import_data_file(filename):
+#     questions = list()
+#     with open(filename, 'r') as file:
+#         csvreader = csv.reader(file)
+#         for row in csvreader:
+#             questions.append(row)
+#     return questions
 
 
 @database.connection_handler
