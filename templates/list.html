@@ -4,7 +4,6 @@
 <div class="questions-list">
     <table class="table table-borderless table-striped">
         <tr class="table-title">
-            <!-- <th>id</th> -->
             <th>
                 {% if order_by == "submission_time" and order_direction == "ASC" %}
                     <a href="/list?order_by=submission_time&order_direction=DESC">Submission time</a>
@@ -40,17 +39,14 @@
                     <a href="/list?order_by=message&order_direction=ASC">Message</a>
                 {% endif %}
             </th>
-            <!--<th>Image</th>-->
         </tr>
             {% for question in questions %}
         <tr>
-            <!-- <td>{{question.id}}</td> -->
             <td>{{question.submission_time}}</td>
             <td>{{question.view_number}}</td>
             <td>{{question.vote_number}}</td>
             <td><a href="{{ url_for('route_question',id=question.id)}}">{{question.title}}</a></td>
             <td><a href="{{ url_for('route_question',id=question.id)}}">{{question.message}}</td>
-            <!-- <td>{{question[6]}}</td>  -->
         </tr>
         {%endfor%}
 

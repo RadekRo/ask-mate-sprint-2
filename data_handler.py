@@ -14,18 +14,25 @@ QUESTION_SORT_OPTIONS = ['submission_time', 'view_number', 'vote_number', 'title
 
 @database.connection_handler
 def get_all_questions(cursor, order_by, order_direction):
-    print(order_by, order_direction)
     order_by = 'submission_time' if order_by not in QUESTION_SORT_OPTIONS else order_by
     order_direction = 'DESC' if order_direction != 'ASC' else order_direction
-    print(order_by, order_direction)
     query = f"""
-        SELECT id, submission_time, view_number, vote_number, title, message, image
+        SELECT id, submission_time, view_number, vote_number, title, message
         FROM question
         ORDER BY {order_by} {order_direction}
        """
     cursor.execute(query)
     return cursor.fetchall()
 
+@database.connection_handler
+def get_latest_questions(cursor, number_of_questions:int):
+    query = f"""
+        SELECT id, submission_time, view_number, vote_number, title, message, image
+        FROM question
+        ORDER BY submission_time DESC LIMIT {number_of_questions} OFFSET 0 
+       """
+    cursor.execute(query)
+    return cursor.fetchall()
        
 @database.connection_handler
 def get_question(cursor, id):
