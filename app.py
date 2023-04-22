@@ -1,8 +1,9 @@
 from flask import Flask
 from flask import render_template, request, redirect
-import data_handler
 from datetime import datetime 
 
+import data_handler
+import util
 
 app = Flask(__name__)
 
@@ -51,7 +52,8 @@ def ask_question():
     if request.method == 'GET':
         return render_template('ask-question.html')
     your_question = dict(request.form)
-    data_handler.add_question(your_question)
+    current_date = util.get_current_date()
+    data_handler.add_question(current_date, your_question)
     return redirect('/list')
 
 
@@ -117,7 +119,7 @@ def update_question():
 
     if request.method == 'POST':
         question_id = request.form.get('id')    
-        current_date = str(datetime.now())[0:19]
+        current_date = util.get_current_date()
     
         if 'file' not in request.files:
             image = ""
