@@ -110,7 +110,8 @@ def route_vote_substract(id):
 
 @app.route('/question/<id>/delete')
 def delete_question(id):
-    data_handler.remove_question(id)
+    file_path = data_handler.get_question_image_path(id)
+    data_handler.remove_question(id, file_path['image'])
     return redirect("/")
 
 @app.route('/answer/<id>/delete')

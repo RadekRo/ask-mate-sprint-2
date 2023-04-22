@@ -92,19 +92,14 @@ def add_question(cursor, current_date:str, your_question:dict, image:str):
 
 
 def save_question_image(file):
-
     if file.filename != "":
         file_name = util.get_unique_file_name()
         file_name_with_extension =  file_name + ".jpg"
         file.save(os.path.join(UPLOAD_FOLDER_FOR_QUESTIONS, file_name_with_extension))
-        return "/" + UPLOAD_FOLDER_FOR_QUESTIONS + file_name_with_extension
+        return UPLOAD_FOLDER_FOR_QUESTIONS + file_name_with_extension
     else:
         return ""
-    
-# def add_answer(answer):
-#     answers = import_data_file(DATA_FILE_PATH_ANSWER)
-#     answers.append(answer)
-#     save_data(DATA_FILE_PATH_ANSWER, answers)
+
 
 @database.connection_handler
 def add_answer(cursor, your_answer:dict):
@@ -115,6 +110,7 @@ def add_answer(cursor, your_answer:dict):
     """
     cursor.execute(query)
 
+
 @database.connection_handler
 def add_comment_question(cursor, question_comment, id:int):
     current_date = str(datetime.now())[0:19]
@@ -123,6 +119,7 @@ def add_comment_question(cursor, question_comment, id:int):
         VALUES ({id}, '{question_comment}', '{current_date}')
     """
     cursor.execute(query)
+
 
 @database.connection_handler
 def add_comment_answer(cursor, question_comment, id:int, answer_id:int):
@@ -196,8 +193,16 @@ def substract_vote_answer(cursor, id:int):
 #     save_data(DATA_FILE_PATH_ANSWER, answers_filtered)
 
 @database.connection_handler
-def remove_question(cursor, id:int):
-    file_path = "static/images/questions/" + str(id) + ".jpg" 
+def get_question_image_path(cursor, id:int):
+    query = f"""
+        SELECT image FROM question
+        WHERE id = {id}
+    """
+    cursor.execute(query)
+    return cursor.fetchone()
+
+@database.connection_handler
+def remove_question(cursor, id:int, file_path:str):
     os.path.exists(file_path) and os.remove(file_path)
     query = f"""
         DELETE FROM question
@@ -242,20 +247,3 @@ def count_view(cursor, id:int):
         WHERE id = {id}
     """
     cursor.execute(query)
-
-
-def sort_questions(questions, order_by, order_direction):
-    reverse = True if order_direction == "desc" else False
-    if order_by == 'title':
-        questions.sort(key = lambda inner:inner[4], reverse = reverse)
-    elif order_by == 'date':
-        questions.sort(key = lambda inner:inner[1], reverse = reverse)
-    elif order_by == 'views':
-        questions.sort(key = lambda inner:int(inner[2]), reverse = reverse)
-    elif order_by == 'votes':
-        questions.sort(key = lambda inner:int(inner[3]), reverse = reverse)
-    elif order_by == 'message':
-        questions.sort(key = lambda inner:inner[5], reverse = reverse)
-    else:
-        questions = questions     
-    return questions    

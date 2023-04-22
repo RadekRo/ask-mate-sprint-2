@@ -7,7 +7,7 @@
         <p class="txt" >{{question.message}}</p>
         {% if question.image != "" %}
             <div class="container">
-                <img class="pictures" src="{{question.image}}" style="max-width: 150px"/>
+                <img class="pictures" src="/{{question.image}}" style="max-width: 150px"/>
             </div>
         {% endif %}
         <a class="add-answer" href="{{ url_for('route_answer', id=question.id)}}">Add new answer</a><br/><br/>
