@@ -10,11 +10,11 @@
         <select name="tag">
             <option>Choose a tag</option>
             {% for tag in existing_tags %}
-                <option value="{{tag}}">{{tag}}</option>
+                <option value="{{tag['name']}}">{{tag['name']}}</option>
             {% endfor %}
         </select>
 
-        <input type="text" name="new_tag" placeholder="or enter a new tag name.">
+        <input type="text" name="new_tag" placeholder="or enter a new tag name." value="">
         <button action="submit">Select</button>
     </form>
 

@@ -171,8 +171,20 @@ def search_questions():
 @app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
 def add_tag(question_id):
     if request.method == "POST":
+        
         question_id = request.form.get('question_id')
+        new_tag = request.form.get('new_tag')
+        
+        if new_tag != "":
+            data_handler.add_new_tag(new_tag.lower()) 
+            tag = new_tag
+        else:
+            tag = request.form.get('tag')
+        
+        tag_id = data_handler.get_tag_id(tag)['id']
+        data_handler.add_tag_to_question(question_id, tag_id)
         return redirect("/question/" + str(question_id))
+    
     existing_tags = data_handler.get_tags_list()
     return render_template("add-tag.html", question_id = question_id, existing_tags = existing_tags)
 

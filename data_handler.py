@@ -272,8 +272,27 @@ def search_for_questions(cursor, search_argument):
     cursor.execute(query)
     return cursor.fetchall()
 
+
 @database.connection_handler
 def get_tags_list(cursor):
     query = "SELECT * FROM tag"
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@database.connection_handler
+def add_new_tag(cursor, new_tag):
+    query = f"INSERT INTO tag (name) VALUES ('{new_tag}')"
+    cursor.execute(query)
+ 
+@database.connection_handler
+def get_tag_id(cursor, tag):
+    query = f"SELECT id FROM tag WHERE name = '{tag}'"
+    cursor.execute(query)
+    return cursor.fetchone()
+
+
+@database.connection_handler
+def add_tag_to_question(cursor, question_id, tag_id):
+    query = f"INSERT INTO question_tag (question_id, tag_id) VALUES ({question_id}, {tag_id})"
+    cursor.execute(query)
