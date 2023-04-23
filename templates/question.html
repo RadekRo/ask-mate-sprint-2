@@ -17,7 +17,10 @@
             <a class="edit" href="{{ url_for('edit_question', id=question[0])}}">EDIT QUESTION</a><br /><br/>
         </div>
         <div class="question-list">
-            <a href="{{ url_for('add_tag', question_id=question.id)}}">ADD QUESTION TAG</a>
+            <a href="{{ url_for('add_tag', question_id=question.id)}}">ADD QUESTION TAG</a><br/>
+            {% for tag in tags %}
+                <span>{{tag}}</span>
+            {% endfor %}
         </div>
         <div>
             <b class="comment-title">COMMENTS TO QUESTION</b><br/>

@@ -279,6 +279,11 @@ def get_tags_list(cursor):
     cursor.execute(query)
     return cursor.fetchall()
 
+@database.connection_handler
+def get_question_tags(question_id):
+    query = f"""
+        SELECT name FROM tag 
+        WHERE id IN (SELECT id FROM question_tag WHERE question_id = {question_id})"""
 
 @database.connection_handler
 def add_new_tag(cursor, new_tag):
