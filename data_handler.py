@@ -262,8 +262,12 @@ def count_view(cursor, id:int):
 @database.connection_handler
 def search_for_questions(cursor, search_argument):
     query = f"""
-        SELECT * FROM question
-        WHERE title LIKE '%{search_argument}%'
+        SELECT * FROM question 
+        WHERE id IN (SELECT DISTINCT question_id
+                        FROM answer 
+                        WHERE message LIKE '%{search_argument}%')
+        OR title LIKE '%{search_argument}%' 
+        OR message LIKE '%{search_argument}%'
     """
     cursor.execute(query)
     return cursor.fetchall()
