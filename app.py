@@ -160,6 +160,11 @@ def add_comment_answer(id, answer_id):
     redirect_dir = "/question/" + id
     return redirect(redirect_dir)
 
+@app.route('/search', methods=['GET'])
+def search_questions():
+    search_argument = request.args.get('q')
+    filtered_questions = data_handler.search_for_questions(search_argument)
+    return render_template("list.html", questions = filtered_questions)
 
 if __name__ == '__main__':
     app.run()

@@ -13,6 +13,12 @@
         <header>
             <div class="nav">
                 <a class="logo" href="/"><img src="/static/images/ask-mate-logo.jpg" /></a>
+                <span class="search">
+                    <form action="/search" method="GET">
+                        <input type="text" name="q" id="q" placeholder="Type phrase to search for..." style="width:500px">
+                        <button type="submit">Search</button>
+                    </form>
+                </span>
                 <a class="ask-question" href="/ask-question">Ask a question</a>
             </div>
         </header>

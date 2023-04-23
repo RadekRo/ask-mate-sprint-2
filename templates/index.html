@@ -1,11 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="search">
-    <form action="/search" method="POST">
-        <input type="text" name="search" id="search" placeholder="Type phrase to search for..." style="width:500px">
-        <button type="submit">Search</button>
-    </form>
-</div>
 <div class="questions-list">
     <a href="/list">Show all questions</a>
     <table class="table table-borderless table-striped">
