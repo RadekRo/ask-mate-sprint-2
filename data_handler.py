@@ -271,3 +271,9 @@ def search_for_questions(cursor, search_argument):
     """
     cursor.execute(query)
     return cursor.fetchall()
+
+@database.connection_handler
+def get_tags_list(cursor):
+    query = "SELECT * FROM tag"
+    cursor.execute(query)
+    return cursor.fetchall()

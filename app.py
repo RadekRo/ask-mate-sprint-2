@@ -168,9 +168,13 @@ def search_questions():
     return render_template("search.html", filtered_questions = filtered_questions, search_result_number = search_result_number)
 
 
-@app.route('/question/<question_id>/new-tag')
+@app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
 def add_tag(question_id):
-    return render_template("add-tag.html")
+    if request.method == "POST":
+        question_id = request.form.get('question_id')
+        return redirect("/question/" + str(question_id))
+    existing_tags = data_handler.get_tags_list()
+    return render_template("add-tag.html", question_id = question_id, existing_tags = existing_tags)
 
 
 if __name__ == '__main__':
