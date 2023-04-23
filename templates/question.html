@@ -18,8 +18,9 @@
         </div>
         <div class="question-list">
             <a href="{{ url_for('add_tag', question_id=question.id)}}">ADD QUESTION TAG</a><br/>
+            <span>Current tags: </span>
             {% for tag in tags %}
-                <span>{{tag}}</span>
+                <span>{{tag['name']}}</span>
             {% endfor %}
         </div>
         <div>
