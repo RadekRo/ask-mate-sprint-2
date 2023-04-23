@@ -164,7 +164,8 @@ def add_comment_answer(id, answer_id):
 def search_questions():
     search_argument = request.args.get('q')
     filtered_questions = data_handler.search_for_questions(search_argument)
-    return render_template("list.html", questions = filtered_questions)
+    search_result_number = len(filtered_questions)
+    return render_template("search.html", filtered_questions = filtered_questions, search_result_number = search_result_number)
 
 if __name__ == '__main__':
     app.run()
