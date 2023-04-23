@@ -167,6 +167,12 @@ def search_questions():
     search_result_number = len(filtered_questions)
     return render_template("search.html", filtered_questions = filtered_questions, search_result_number = search_result_number)
 
+
+@app.route('/question/<question_id>/new-tag')
+def add_tag(question_id):
+    return render_template("add-tag.html")
+
+
 if __name__ == '__main__':
     app.run()
 
