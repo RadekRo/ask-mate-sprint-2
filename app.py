@@ -190,6 +190,11 @@ def add_tag(question_id):
     return render_template("add-tag.html", question_id = question_id, existing_tags = existing_tags)
 
 
+@app.route('/question/<question_id>/tag/<tag_id>/delete')
+def delete_tag(tag_id, question_id):
+    data_handler.delete_tag(tag_id, question_id)
+    return redirect('/question/' + question_id)
+
 if __name__ == '__main__':
     app.run()
 

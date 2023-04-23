@@ -283,7 +283,7 @@ def get_tags_list(cursor):
 @database.connection_handler
 def get_question_tags(cursor, question_id):
     query = f"""
-        SELECT name FROM tag 
+        SELECT * FROM tag 
         WHERE id IN (SELECT tag_id FROM question_tag WHERE question_id = {question_id})"""
     cursor.execute(query)
     return cursor.fetchall()
@@ -305,4 +305,9 @@ def get_tag_id(cursor, tag):
 @database.connection_handler
 def add_tag_to_question(cursor, question_id, tag_id):
     query = f"INSERT INTO question_tag (question_id, tag_id) VALUES ({question_id}, {tag_id})"
+    cursor.execute(query)
+
+@database.connection_handler
+def delete_tag(cursor, tag_id, question_id):
+    query = f"DELETE from question_tag WHERE question_id = {question_id} AND tag_id = {tag_id}"
     cursor.execute(query)

@@ -20,7 +20,7 @@
             <a href="{{ url_for('add_tag', question_id=question.id)}}">ADD QUESTION TAG</a><br/>
             <span>Current tags: </span>
             {% for tag in tags %}
-                <span>{{tag['name']}} <a href=""><b>x</b></a></span>
+                <span>{{tag['name']}} <a href="/question/{{question.id}}/tag/{{tag['id']}}/delete"><b>x</b></a></span>
             {% endfor %}
         </div>
         <div>
