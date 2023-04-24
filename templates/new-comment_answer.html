@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="question-list question-txt ">
+        <b class="comment-title-answer">COMMENTS TO ANSWER</b><br/>
+        {% for comment in comments_answer %}
+        Submitted: {{comment.submission_time}}<br/>
+        {{comment.message}}<br/><br/>
+        {% endfor %}
         <form action="/question/{{id}}/{{answer_id}}/new-comment_answer" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="answer_id" value={{answer_id}}>
             <input type="hidden" name="id" value={{id}}>

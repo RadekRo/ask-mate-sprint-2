@@ -25,7 +25,7 @@
         </div>
         <div>
             <b class="comment-title">COMMENTS TO QUESTION</b><br/>
-        {% for comment in comments %}  
+        {% for comment in comments_question %}  
             <p class="comment">
                 Submitted: {{comment.submission_time}}<br/>
                 {{comment.message}}<br/>
@@ -40,16 +40,17 @@
     <br />
     <b class="answer-title">ANSWERS</b><br/>
     {% for answer in answers %}
-        {% for comment in comments %}
         <p class="answer">
             {{answer.message}}<br/><br/>
-            <b class="comment-title-answer">COMMENTS TO ANSWER</b><br/>
-            {{comment.message}}<br/><br/>
-        {% endfor %}
         {% if answer.image != "no-image" %}
                 <br/>
                 <img src="/{{answer.image}}" style="max-width: 200px"/>
         {% endif %}
+        <b class="comment-title-answer">COMMENTS TO ANSWER</b><br/>
+        {% for comment in comments_answer %}
+        Submitted: {{comment.submission_time}}<br/>
+        {{comment.message}}<br/><br/>
+        {% endfor %}
             <a class="add-new-comment-answer" href="{{ url_for('add_comment_answer', id=question.id, answer_id=answer.id)}}">Add your comment to this answer</a><br/><br/>
             <div class="buttons">
             <form method="post" action="{{ url_for('route_answer_add_vote', answer_id=answer.id)}}">

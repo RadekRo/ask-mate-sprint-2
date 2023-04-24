@@ -68,11 +68,22 @@ def get_answers(cursor, question_id):
     return cursor.fetchall()
 
 @database.connection_handler
-def get_comments(cursor, question_id):
+def get_comments_question(cursor, question_id):
     query = f"""
-        SELECT id, question_id, answer_id, message, submission_time, edited_number
+        SELECT id, question_id, message, submission_time, edited_number
         FROM comment
         WHERE question_id = {question_id}
+        ORDER by id DESC
+       """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+@database.connection_handler
+def get_comments_answer(cursor, answer_id):
+    query = f"""
+        SELECT id, answer_id, message, submission_time, edited_number
+        FROM comment
+        WHERE answer_id = {answer_id}
         ORDER by id DESC
        """
     cursor.execute(query)
@@ -135,8 +146,8 @@ def add_comment_question(cursor, question_comment, id:int):
 def add_comment_answer(cursor, question_comment, id:int, answer_id:int):
     current_date = str(datetime.now())[0:19]
     query = f"""
-        INSERT INTO comment (question_id, answer_id, message, submission_time) 
-        VALUES ({id}, {answer_id}, '{question_comment}', '{current_date}')
+        INSERT INTO comment (answer_id, message, submission_time) 
+        VALUES ({answer_id}, '{question_comment}', '{current_date}')
     """
     cursor.execute(query)
 

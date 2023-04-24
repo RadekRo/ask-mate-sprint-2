@@ -25,10 +25,10 @@ def route_list():
 def route_question(id):
     question = data_handler.get_question(id)
     answers = data_handler.get_answers(id)
-    comments = data_handler.get_comments(id)
+    comments_question = data_handler.get_comments_question(id)
     tags = data_handler.get_question_tags(id)
     data_handler.count_view(id)
-    return render_template("question.html", question = question, answers = answers, comments = comments, tags = tags)
+    return render_template("question.html", question = question, answers = answers, comments_question = comments_question, tags = tags)
 
 
 @app.route('/answer/<answer_id>/answer_add_vote', methods=["POST", "GET"])
@@ -73,7 +73,8 @@ def route_comment(id):
 
 @app.route('/question/<id>/<answer_id>/new-comment_answer')
 def route_comment_answer(id, answer_id):
-    return render_template("new-comment_answer.html", id=id, answer_id=answer_id)
+    comments_answer = data_handler.get_comments_answer(answer_id)
+    return render_template("new-comment_answer.html", id=id, answer_id=answer_id, comments_answer = comments_answer)
 
 
 @app.route('/new-answer', methods=["POST", "GET"])
