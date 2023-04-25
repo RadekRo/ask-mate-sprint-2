@@ -48,10 +48,12 @@
         {% endif %}
         <b class="comment-title-answer">COMMENTS TO ANSWER</b><br/>
         {% for comment in comments_answer %}
-        Submitted: {{comment.submission_time}}<br/>
-        {{comment.message}}<br/><br/>
+            {% if comment.answer_id == answer.id %}
+                Submitted: {{comment.submission_time}}<br/>
+                {{comment.message}}<br/><br/>
+            {% endif %}
         {% endfor %}
-            <a class="add-new-comment-answer" href="{{ url_for('add_comment_answer', id=question.id, answer_id=answer.id)}}">Add your comment to this answer</a><br/><br/>
+            <a class="add-new-comment-answer" href="{{ url_for('route_comment_answer', answer_id=answer.id, id=question.id)}}">Add your comment to this answer</a><br/><br/>
             <div class="buttons">
             <form method="post" action="{{ url_for('route_answer_add_vote', answer_id=answer.id)}}">
             <button class="plus" type="submit">+</button>

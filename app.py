@@ -26,9 +26,10 @@ def route_question(id):
     question = data_handler.get_question(id)
     answers = data_handler.get_answers(id)
     comments_question = data_handler.get_comments_question(id)
+    comments_answer = data_handler.get_comments_answer()
     tags = data_handler.get_question_tags(id)
     data_handler.count_view(id)
-    return render_template("question.html", question = question, answers = answers, comments_question = comments_question, tags = tags)
+    return render_template("question.html", question = question, answers = answers, comments_question = comments_question, tags = tags, comments_answer = comments_answer)
 
 
 @app.route('/answer/<answer_id>/answer_add_vote', methods=["POST", "GET"])
@@ -71,10 +72,17 @@ def route_comment(id):
     return render_template("new-comment.html", id=id)
 
 
-@app.route('/question/<id>/<answer_id>/new-comment_answer')
-def route_comment_answer(id, answer_id):
-    comments_answer = data_handler.get_comments_answer(answer_id)
-    return render_template("new-comment_answer.html", id=id, answer_id=answer_id, comments_answer = comments_answer)
+@app.route('/answer/<answer_id>/new-comment_answer',  methods=["POST", "GET"])
+def route_comment_answer(answer_id):
+    id = request.args.get('id')
+    if request.method == "POST":
+        id = request.form.get('id')
+        answer_comment = request.form.get('message')
+        answer_id = request.form.get('answer_id')
+        data_handler.add_comment_answer(answer_comment, answer_id)
+        redirect_dir = "/question/" + id
+        return redirect(redirect_dir)
+    return render_template("new-comment_answer.html", answer_id=answer_id, id = id)
 
 
 @app.route('/new-answer', methods=["POST", "GET"])
@@ -152,15 +160,6 @@ def add_comment_question(id):
     redirect_dir = "/question/" + id
     return redirect(redirect_dir)
 
-@app.route('/question/<id>/<answer_id>/new-comment_answer', methods=["POST", "GET"])
-def add_comment_answer(id, answer_id):
-
-    if request.method == 'GET':
-        return render_template('new-comment_answer.html')
-    answer_comment = request.form.get('message')
-    data_handler.add_comment_answer(answer_comment, id, answer_id)
-    redirect_dir = "/question/" + id
-    return redirect(redirect_dir)
 
 @app.route('/search', methods=['GET'])
 def search_questions():
