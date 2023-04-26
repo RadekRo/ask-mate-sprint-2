@@ -25,6 +25,15 @@ def get_all_questions(cursor, order_by, order_direction):
     return cursor.fetchall()
 
 @database.connection_handler
+def get_questions_number(cursor):
+    query = f"""
+        SELECT COUNT(*) as count_questions
+        FROM question 
+       """
+    cursor.execute(query)
+    return cursor.fetchone()
+
+@database.connection_handler
 def get_latest_questions(cursor, number_of_questions:int):
     query = f"""
         SELECT id, submission_time, view_number, vote_number, title, message, image

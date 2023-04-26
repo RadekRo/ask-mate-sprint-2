@@ -11,7 +11,8 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     latest_questions = data_handler.get_latest_questions(5)
-    return render_template('index.html', latest_questions = latest_questions)
+    total_amount_of_questions = data_handler.get_questions_number()
+    return render_template('index.html', latest_questions = latest_questions, total_amount_of_questions = total_amount_of_questions)
 
 @app.route('/list')
 def route_list():

@@ -1,6 +1,21 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="questions-list">
+<div class="container">
+    <div class="questions-list">
+        <span class="questions-list-header"><h4>Latest questions</h4></span>
+        <form action="/ask-question">
+            <span><button type="submit" class="btn btn-primary">Ask Question</button></span>
+        </form>
+    </div>
+</div>
+<div class="container">
+    Total number of questions: {{total_amount_of_questions['count_questions']}}
+</div>
+<div class="container">
+    <div>votes</div>
+    <div>title & message</div>
+</div>
+<!-- <div class="questions-list">
     <a href="/list">Show all questions</a>
     <table class="table table-borderless table-striped">
         <tr class="table-title">
@@ -21,5 +36,5 @@
         {%endfor%}
 
     </table>
-</div>
+</div> -->
 {% endblock %}
