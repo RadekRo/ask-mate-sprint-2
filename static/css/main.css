@@ -24,3 +24,7 @@ header {
  display: flex;
  justify-content: space-between;
 }
+
+.question {
+  border-top: 1px #c9c8c8 solid;
+}
