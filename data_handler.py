@@ -230,7 +230,13 @@ def remove_question(cursor, id:int, file_path:str):
     """
     cursor.execute(query)
     #TODO remove answer connected with question
-       
+
+def remove_comment(cursor, comment_id):
+    query = f"""
+    DELETE FROM comment
+    WHERE ID = {comment_id}
+    """
+    cursor.execute(query)
 
 def remove_answer(id):
     answers = import_data_file(DATA_FILE_PATH_ANSWER)

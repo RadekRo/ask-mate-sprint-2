@@ -123,6 +123,13 @@ def delete_answer(id):
     redirect_dir = "/question/" + question_id
     return redirect(redirect_dir)
 
+@app.route('/comments/<comment_id>/delete')
+def delete_comment(comment_id):
+    question_id = data_handler.remove_comment(comment_id)
+    redirect_dir = "/question/" + question_id
+    return redirect(redirect_dir)
+
+
 @app.route('/question/<id>/edit')
 def edit_question(id):
     question = data_handler.get_question(id)
