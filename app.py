@@ -123,11 +123,13 @@ def delete_answer(id):
     redirect_dir = "/question/" + question_id
     return redirect(redirect_dir)
 
-@app.route('/comments/<comment_id>/delete')
-def delete_comment(comment_id):
-    question_id = data_handler.remove_comment(comment_id)
-    redirect_dir = "/question/" + question_id
-    return redirect(redirect_dir)
+@app.route('/comments/<comment_id>/delete_comment', methods=["POST", "GET"])
+def route_delete_comment(comment_id):
+    if request.method == "POST":
+        comment_id = request.form.get('comment_id')
+        data_handler.remove_comment(comment_id)
+    return render_template("delete_comment.html", comment_id = comment_id)
+    
 
 
 @app.route('/question/<id>/edit')
