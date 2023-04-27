@@ -8,14 +8,28 @@
         </form>
     </div>
 </div>
+<div class="container mt-4">
+    <form action="/list">
+        <button type="submit" class="btn btn-info btn-sm">Show All Questions</button>
+    </form>
+</div>
 <div class="container">
-    <button type="button" class="btn btn-info btn-sm">Show All Questions</button>
-    <h6>Total number of questions: {{total_amount_of_questions['count_questions']}}</h6>
+    <div><h6>Total number of questions: {{total_amount_of_questions['count_questions']}}</h6></div>
 </div>
+{% for question in latest_questions %}
 <div class="container question">
-    <div>votes</div>
-    <div>title & message</div>
+    <div class="question-info">
+        <p class="question-info-element">{{question.vote_number}} votes</p>
+        <p class="question-info-element">{{question.view_number}} views</p>
+    </div>
+    <div class="question-details">
+        <p class="question-title">{{question.title}}</p>
+        <p class="question-message">{{question.message}}</p>
+        <p class="question-date">Posted: {{question.submission_time}}</p>
+        <p><div class="tag rounded px-1">tag1</div><div class="tag rounded px-1">tag2</div></p>
+    </div>
 </div>
+{% endfor %}
 <!-- <div class="questions-list">
     <a href="/list">Show all questions</a>
     <table class="table table-borderless table-striped">

@@ -27,4 +27,47 @@ header {
 
 .question {
   border-top: 1px #c9c8c8 solid;
+  padding: 1em 0;
+  display: inline-flex;
+}
+
+.question-info {
+  width: 10%;
+  font-size:0.85em;
+}
+
+.question-info-element  {
+  margin: 1px 0;
+}
+
+.question-details {
+  width: 85%;
+}
+
+.question-title {
+  font-size: 1.25em;
+  color: rgb(153, 153, 248);
+  margin-bottom: 1px;
+}
+
+.question-title:hover {
+  color: rgb(117, 117, 250);
+  cursor: pointer;
+}
+
+.question-message {
+  font-size: 1em;
+}
+
+.question-date {
+  font-size: 0.8em;
+  margin: 0;
+}
+
+.tag {
+  display: inline-flex;
+  margin: 0 1px;
+  padding: 1px 2px;
+  background-color: rgb(219, 218, 220);
+  font-size: 0.9em;
 }
