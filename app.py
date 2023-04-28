@@ -131,11 +131,15 @@ def route_delete_comment(comment_id):
     return render_template("delete_comment.html", comment_id = comment_id)
     
 
-
 @app.route('/question/<id>/edit')
 def edit_question(id):
     question = data_handler.get_question(id)
     return render_template("edit-question.html", id = id, question = question)
+
+@app.route('/comment/<comment_id>/edit', methods=["GET", "POST"])
+def edit_comment(comment_id):
+    comment = data_handler.get_comment(comment_id)
+    return render_template("edit_comment.html", comment_id = comment_id, comment = comment)
 
 @app.route('/question/update', methods=["GET", "POST"])
 def update_question():

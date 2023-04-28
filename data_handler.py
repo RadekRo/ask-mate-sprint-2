@@ -88,6 +88,16 @@ def get_comments_answer(cursor):
     cursor.execute(query)
     return cursor.fetchall()
 
+@database.connection_handler
+def get_comment(cursor, comment_id):
+    query = f"""
+    SELECT id, question_id, message, submission_time, edited_number
+        FROM comment
+        WHERE question_id = {comment_id}    
+    """
+    cursor.execute(query)
+    return cursor.fetchone()
+
 
 @database.connection_handler
 def add_question(cursor, current_date:str, your_question:dict, image:str):
