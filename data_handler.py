@@ -93,7 +93,7 @@ def get_comment(cursor, comment_id):
     query = f"""
     SELECT id, question_id, message, submission_time, edited_number
         FROM comment
-        WHERE question_id = {comment_id}    
+        WHERE id = {comment_id}    
     """
     cursor.execute(query)
     return cursor.fetchone()

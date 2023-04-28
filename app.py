@@ -137,7 +137,7 @@ def edit_question(id):
     return render_template("edit-question.html", id = id, question = question)
 
 @app.route('/comment/<comment_id>/edit', methods=["GET", "POST"])
-def edit_comment(comment_id):
+def route_edit_comment(comment_id):
     comment = data_handler.get_comment(comment_id)
     return render_template("edit_comment.html", comment_id = comment_id, comment = comment)
 
