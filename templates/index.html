@@ -20,6 +20,10 @@
 <div class="container question">
     <div class="question-info">
         <p class="question-info-element">{{question.vote_number}} votes</p>
+        <p class="question-info-element">{{question.answer_number}} 
+            {% if question.answer_number == 1 %} answer
+            {% else %} answers
+            {% endif %}</p>
         <p class="question-info-element">{{question.view_number}} views</p>
     </div>
     <div class="question-details">

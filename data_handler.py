@@ -36,10 +36,13 @@ def get_questions_number(cursor):
 @database.connection_handler
 def get_latest_questions(cursor, number_of_questions:int):
     query = f"""
-        SELECT id, submission_time, view_number, vote_number, title, message, image
+        SELECT id, submission_time, view_number, vote_number, title, message, 
+        COALESCE((SELECT COUNT(answer.question_id)
+        FROM answer 
+        WHERE answer.question_id = question.id GROUP by answer.question_id), 0) as answer_number
         FROM question
-        ORDER BY submission_time DESC LIMIT {number_of_questions} OFFSET 0 
-       """
+        ORDER BY submission_time DESC LIMIT {number_of_questions} OFFSET 0;
+    """
     cursor.execute(query)
     return cursor.fetchall()
        
