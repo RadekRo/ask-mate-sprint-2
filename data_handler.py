@@ -45,7 +45,19 @@ def get_latest_questions(cursor, number_of_questions:int):
     """
     cursor.execute(query)
     return cursor.fetchall()
-       
+
+
+@database.connection_handler
+def get_all_question_tags(cursor):
+    query = f"""
+    SELECT question_id,
+    (SELECT tag.name FROM tag WHERE tag.id = question_tag.tag_id) as tag_name
+    FROM question_tag;
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
 @database.connection_handler
 def get_question(cursor, id):
     query = f"""

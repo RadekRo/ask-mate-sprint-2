@@ -2,19 +2,16 @@
 {% block content %}
 <div class="container">
     <div class="questions-list">
-        <span class="questions-list-header"><h4>Latest questions</h4></span>
+        <span class="questions-list-header"><h4>Latest questions ({{number_of_latest_questions}})</h4></span>
         <form action="/ask-question">
             <span><button type="submit" class="btn btn-primary">Ask Question</button></span>
         </form>
     </div>
 </div>
-<div class="container mt-4">
+<div class="container my-4">
     <form action="/list">
-        <button type="submit" class="btn btn-info btn-sm">Show All Questions</button>
+        <button type="submit" class="btn btn-info btn-sm">Show All Questions ({{total_amount_of_questions['count_questions']}})</button>
     </form>
-</div>
-<div class="container">
-    <div><h6>Total number of questions: {{total_amount_of_questions['count_questions']}}</h6></div>
 </div>
 {% for question in latest_questions %}
 <div class="container question">
@@ -30,13 +27,20 @@
         <p class="question-title"><a href="{{ url_for('route_question',id=question.id)}}" class="text-decoration-none">{{question.title}}</a></p>
         <p class="question-message">{{question.message}}</p>
         <p class="question-date"><i class="fa-regular fa-calendar-days"></i> Posted: {{question.submission_time}}</p>
-        <p><div class="tag rounded px-1">tag1</div><div class="tag rounded px-1">tag2</div></p>
+
+        <p>
+            {% for tag in all_question_tags %}
+                {% if tag.question_id == question.id %}
+                    <div class="tag rounded px-1">#{{tag.tag_name}}</div>
+                {% endif %}
+            {% endfor %}
+        </p>
     </div>
 </div>
 {% endfor %}
 <div class="container question">
     <form action="/list">
-        <button type="submit" class="btn btn-info btn-sm">Show All Questions</button>
+        <button type="submit" class="btn btn-info btn-sm">Show All Questions ({{total_amount_of_questions['count_questions']}})</button>
     </form>
 </div>
 <!-- <div class="questions-list">
