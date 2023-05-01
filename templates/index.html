@@ -27,7 +27,7 @@
         <p class="question-info-element">{{question.view_number}} views</p>
     </div>
     <div class="question-details">
-        <p class="question-title">{{question.title}}</p>
+        <p class="question-title"><a href="{{ url_for('route_question',id=question.id)}}" class="text-decoration-none">{{question.title}}</a></p>
         <p class="question-message">{{question.message}}</p>
         <p class="question-date"><i class="fa-regular fa-calendar-days"></i> Posted: {{question.submission_time}}</p>
         <p><div class="tag rounded px-1">tag1</div><div class="tag rounded px-1">tag2</div></p>
