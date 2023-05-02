@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container">
     <div class="questions-list">
-        <span class="questions-list-header"><h4>Latest questions ({{number_of_latest_questions}})</h4></span>
+        <span class="questions-list-header"><h4>Latest Questions ({{number_of_latest_questions}})</h4></span>
         <form action="/ask-question">
             <span><button type="submit" class="btn btn-primary">Ask Question</button></span>
         </form>
@@ -27,7 +27,6 @@
         <p class="question-title"><a href="{{ url_for('route_question',id=question.id)}}" class="text-decoration-none">{{question.title}}</a></p>
         <p class="question-message">{{question.message}}</p>
         <p class="question-date"><i class="fa-regular fa-calendar-days"></i> Posted: {{question.submission_time}}</p>
-
         <p>
             {% for tag in all_question_tags %}
                 {% if tag.question_id == question.id %}

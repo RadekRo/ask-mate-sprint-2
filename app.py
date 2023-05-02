@@ -25,7 +25,14 @@ def route_list():
     order_by = request.args.get('order_by') 
     order_direction = request.args.get('order_direction')
     questions = data_handler.get_all_questions(order_by, order_direction)
-    return render_template("list.html", questions = questions, order_by = order_by, order_direction = order_direction)
+    all_question_tags = data_handler.get_all_question_tags()
+    total_amount_of_questions = data_handler.get_questions_number()
+    return render_template("list.html", 
+                           questions = questions,
+                           total_amount_of_questions = total_amount_of_questions, 
+                           all_question_tags = all_question_tags,
+                           order_by = order_by, 
+                           order_direction = order_direction)
 
 
 @app.route('/question/<id>')
