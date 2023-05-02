@@ -43,26 +43,4 @@
         <button type="submit" class="btn btn-info btn-sm">Show All Questions ({{total_amount_of_questions['count_questions']}})</button>
     </form>
 </div>
-<!-- <div class="questions-list">
-    <a href="/list">Show all questions</a>
-    <table class="table table-borderless table-striped">
-        <tr class="table-title">
-            <th>Submission time</th>
-            <th>View number</th>
-            <th>Vote number</th>
-            <th>Title</th>
-            <th>Message</th>
-        </tr>
-            {% for question in latest_questions %}
-        <tr>
-            <td>{{question.submission_time}}</td>
-            <td>{{question.view_number}}</td>
-            <td>{{question.vote_number}}</td>
-            <td><a href="{{ url_for('route_question',id=question.id)}}">{{question.title}}</a></td>
-            <td><a href="{{ url_for('route_question',id=question.id)}}">{{question.message}}</td>
-        </tr>
-        {%endfor%}
-
-    </table>
-</div> -->
 {% endblock %}
