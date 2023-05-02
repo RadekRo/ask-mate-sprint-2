@@ -24,6 +24,9 @@ def index():
 def route_list():
     order_by = request.args.get('order_by') 
     order_direction = request.args.get('order_direction')
+    if order_direction == None and order_by == None:
+        order_direction = "DESC"
+        order_by = "submission_time"
     questions = data_handler.get_all_questions(order_by, order_direction)
     all_question_tags = data_handler.get_all_question_tags()
     total_amount_of_questions = data_handler.get_questions_number()

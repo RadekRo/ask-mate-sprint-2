@@ -14,8 +14,6 @@ QUESTION_SORT_OPTIONS = ['submission_time', 'view_number', 'vote_number', 'title
 
 @database.connection_handler
 def get_all_questions(cursor, order_by, order_direction):
-    order_by = 'submission_time' if order_by not in QUESTION_SORT_OPTIONS else order_by
-    order_direction = 'DESC' if order_direction != 'ASC' else order_direction
     query = f"""
         SELECT id, submission_time, view_number, vote_number, title, message, 
         COALESCE((SELECT COUNT(answer.question_id)
