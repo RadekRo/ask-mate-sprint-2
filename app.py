@@ -142,6 +142,13 @@ def route_edit_comment(comment_id):
     comment = data_handler.get_comment(comment_id)
     return render_template("edit_comment.html", comment_id = comment_id, comment = comment)
 
+@app.route('/comment/<comment_id>/edit_comment', methods=["GET", "POST"])
+def edit_comment(comment_id):
+    current_date = util.get_current_date()
+    comment = request.form.get('message')
+    data_handler.edit_comment(current_date, comment, comment_id)
+    return redirect('/')
+
 @app.route('/question/update', methods=["GET", "POST"])
 def update_question():
 

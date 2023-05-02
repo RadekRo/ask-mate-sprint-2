@@ -110,6 +110,15 @@ def get_comment(cursor, comment_id):
     cursor.execute(query)
     return cursor.fetchone()
 
+@database.connection_handler
+def edit_comment(cursor, current_date:str, comment_message, comment_id):
+    query = f"""
+    UPDATE comment 
+    SET message = {'comment_message'}
+    WHERE id = {comment_id}    
+    """
+    cursor.execute(query)
+
 
 @database.connection_handler
 def add_question(cursor, current_date:str, your_question:dict, image:str):
@@ -142,7 +151,7 @@ def save_answer_image(file):
         return "no-image"
 
 @database.connection_handler
-def add_answer(cursor, current_date:str, your_answer:dict, image:str):
+def add_answer(cursor, current_date, your_answer:dict, image:str):
     try:
         query = f"""
             INSERT INTO answer (submission_time, question_id, message, image) 
