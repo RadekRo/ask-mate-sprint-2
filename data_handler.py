@@ -124,10 +124,10 @@ def get_comment(cursor, comment_id):
     return cursor.fetchone()
 
 @database.connection_handler
-def edit_comment(cursor, current_date:str, comment_message, comment_id):
+def edit_comment(cursor, current_date:str, comment_message:str, comment_id):
     query = f"""
     UPDATE comment 
-    SET message = {'comment_message'}
+    SET (message, submission_time) = ('{comment_message}', '{current_date}')
     WHERE id = {comment_id}    
     """
     cursor.execute(query)
@@ -275,10 +275,11 @@ def remove_question(cursor, id:int, file_path:str):
     cursor.execute(query)
     #TODO remove answer connected with question
 
-def remove_comment(cursor, comment_id):
+@database.connection_handler
+def remove_comment(cursor, comment_id:int):
     query = f"""
     DELETE FROM comment
-    WHERE ID = {comment_id}
+    WHERE id = {comment_id}
     """
     cursor.execute(query)
 

@@ -142,9 +142,7 @@ def delete_answer(id):
 
 @app.route('/comments/<comment_id>/delete_comment', methods=["POST", "GET"])
 def route_delete_comment(comment_id):
-    if request.method == "POST":
-        comment_id = request.form.get('comment_id')
-        data_handler.remove_comment(comment_id)
+    data_handler.remove_comment(comment_id)
     return render_template("delete_comment.html", comment_id = comment_id)
     
 
@@ -161,7 +159,7 @@ def route_edit_comment(comment_id):
 @app.route('/comment/<comment_id>/edit_comment', methods=["GET", "POST"])
 def edit_comment(comment_id):
     current_date = util.get_current_date()
-    comment = request.form.get('message')
+    comment = str(request.form.get('message'))
     data_handler.edit_comment(current_date, comment, comment_id)
     return redirect('/')
 
