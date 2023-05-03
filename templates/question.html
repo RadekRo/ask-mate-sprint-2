@@ -1,6 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
-<a class="back" href="/list">&larr; Back to questions list</a><br /><br />
+<a href="/list" class="btn btn-light btn-sm" role="button">
+    <i class="fa-solid fa-circle-arrow-left"></i> Back to All Questions
+</a>
+
+<!-- <a class="back" href="/list">&larr; Back to questions list</a><br /><br />
 <div class="question-list row">
     <b class="question-title">{{question.title}}</b>
     <div class="question-txt">
@@ -35,7 +39,6 @@
         </div>
         </div>
 </div>
-<!-- {% if answers|length > 0 %} -->
 <div class="question-list row">
     <br />
     <b class="answer-title">ANSWERS</b><br/>
@@ -68,5 +71,5 @@
         </p>
     {% endfor %}
 </div>
-<!-- {% endif %} -->
+-->
 {% endblock %}
