@@ -3,6 +3,7 @@
     <b class="comment-title-answer">EDIT COMMENT</b><br/>
     <form action="/comment/{{comment_id}}/edit_comment" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="comment_id" value={{comment.id}}>
+        <input type="hidden" name="id" value={{id}}>
     Submitted: {{comment.submission_time}}<br/>
     <p>
         <label for="message">Message:</label><br/>
