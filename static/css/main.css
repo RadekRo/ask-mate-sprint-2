@@ -13,6 +13,10 @@ img {
   max-width: 250px;
 }
 
+.container.question:hover {
+  background-color: #f0f2f2;
+}
+
 header {
   background-color: #f8f9f9;
   box-shadow: -6px 0px white, 6px 0 white, 0 5px 3px -2px #e8e8e8;
