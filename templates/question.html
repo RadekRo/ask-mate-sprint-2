@@ -13,7 +13,14 @@
         </form>
     </div>
 </div>
-<div class="container border-top my-2 py-2">{{question.message}}</div>
+<div class="container">
+    <i class="fa-solid fa-ellipsis-vertical mx-1"></i>
+    <a href="{{ url_for('edit_question', id=question[0])}}" class="btn btn-success btn-sm" role="button">Edit</a>
+    <a href="{{ url_for('delete_question', id=question.id)}}" class="btn btn-danger btn-sm" role="button">Delete</a>
+</div>
+<div class="container border-top my-2 py-2">
+    {{question.message}}
+</div>
 {% if question.image != 'no-image' %}
 <div class="container">
     <img class="pictures" src="/{{question.image}}" alt="question's image file" />
@@ -24,14 +31,25 @@
         <div class="tag rounded px-2">#{{tag.name}} <a href="/question/{{question.id}}/tag/{{tag['id']}}/delete" class="text-danger text-decoration-none ms-2"><b>x</b></a></div>
     {% endfor %}
 </div>
-<div class="container border-top my-2 py-2">
+{% for comment in comments_question %}
+    <div class="container border-top px-5 py-2 comment-message">
+        {{ comment.message }} - <span class="text-info">{{comment.submission_time}}</span>
+    </div>
+{% endfor %}
+<div class="container text-info border-bottom py-2">
+    <a href="{{ url_for('add_comment_question', id=question.id)}}" class="text-decoration-none link-info"><i class="fa-regular fa-comment"></i> Add a comment</a>
+</div>
+<!--<div class="container border-top my-2 py-2">
     <span class="text-secondary me-2"><b>Question Score:</b> </span><a href="" class="text-decoration-none text-danger"><i class="fa-solid fa-square-minus"></i></a>
     <span class="text-secondary mx-1">{{question.vote_number}}</span> <a href="" class="text-decoration-none text-success"><i class="fa-solid fa-square-plus"></i></a>
-</div>
-<div class="container my-3">
+</div>-->
+<!-- <div class="container my-3">
     <i class="fa-solid fa-ellipsis-vertical me-2"></i>
     <a href="{{ url_for('edit_question', id=question[0])}}" class="btn btn-success btn-sm" role="button">Edit Question</a>
     <a href="{{ url_for('delete_question', id=question.id)}}" class="btn btn-danger btn-sm" role="button">Delete Question</a>
+</div> -->
+<div class="container bg-light py-2">
+    <h5>{{ answers|length }} Answers</h5>
 </div>
 
 <div class="question-list row">
