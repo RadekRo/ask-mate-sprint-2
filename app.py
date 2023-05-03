@@ -165,17 +165,22 @@ def edit_question(id):
 def route_edit_comment(comment_id):
     id = request.args.get('id')
     comment = data_handler.get_comment(comment_id)
+    print(id)
     return render_template("edit_comment.html", comment_id = comment_id, comment = comment, id = id)
 
 @app.route('/comment/<comment_id>/edit_comment', methods=["GET", "POST"])
 def edit_comment(comment_id):
     if request.method == "POST":
-        id = request.args.get('id')
+        id = request.form.get('id')
+        current_date = util.get_current_date()
+        comment = str(request.form.get('message'))
+        data_handler.edit_comment(current_date, comment, comment_id)
+        print(id)
         redirect_dir = "/question/" + id
         return redirect(redirect_dir)
-    current_date = util.get_current_date()
-    comment = str(request.form.get('message'))
-    data_handler.edit_comment(current_date, comment, comment_id)
+    
+    
+    
     return redirect('/')
 
 @app.route('/question/update', methods=["GET", "POST"])
