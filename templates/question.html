@@ -1,6 +1,39 @@
 {% extends "layout.html" %}
 {% block content %}
-<a class="back" href="/list">&larr; Back to questions list</a><br /><br />
+<a href="/list" class="btn btn-light btn-sm mb-4" role="button">
+    <i class="fa-solid fa-circle-arrow-left"></i> Back to All Questions
+</a>
+<div class="container">
+    <div class="questions-list">
+        <span class="questions-list-header"><h4>{{question.title}}</h4>
+        <h7><i class="fa-regular fa-calendar-days"></i> {{question.submission_time}} <br/><i class="fa-regular fa-eye"></i> {{question.view_number}}</h7>
+        </span>
+        <form action="/ask-question">
+            <span><button type="submit" class="btn btn-primary">Ask Question</button></span>
+        </form>
+    </div>
+</div>
+<div class="container border-top my-2 py-2">{{question.message}}</div>
+{% if question.image != 'no-image' %}
+<div class="container">
+    <img class="pictures" src="/{{question.image}}" alt="question's image file" />
+</div>
+{% endif %}
+<div class="container mt-3">
+    {% for tag in tags %}
+        <div class="tag rounded px-2">#{{tag.name}} <a href="/question/{{question.id}}/tag/{{tag['id']}}/delete" class="text-danger text-decoration-none ms-2"><b>x</b></a></div>
+    {% endfor %}
+</div>
+<div class="container border-top my-2 py-2">
+    <span class="text-secondary me-2"><b>Question Score:</b> </span><a href="" class="text-decoration-none text-danger"><i class="fa-solid fa-square-minus"></i></a>
+    <span class="text-secondary mx-1">{{question.vote_number}}</span> <a href="" class="text-decoration-none text-success"><i class="fa-solid fa-square-plus"></i></a>
+</div>
+<div class="container my-3">
+    <i class="fa-solid fa-ellipsis-vertical me-2"></i>
+    <a href="{{ url_for('edit_question', id=question[0])}}" class="btn btn-success btn-sm" role="button">Edit Question</a>
+    <a href="{{ url_for('delete_question', id=question.id)}}" class="btn btn-danger btn-sm" role="button">Delete Question</a>
+</div>
+<!-- 
 <div class="question-list row">
     <b class="question-title">{{question.title}}</b>
     <div class="question-txt">
@@ -35,7 +68,6 @@
         </div>
         </div>
 </div>
-<!-- {% if answers|length > 0 %} -->
 <div class="question-list row">
     <br />
     <b class="answer-title">ANSWERS</b><br/>
@@ -68,5 +100,5 @@
         </p>
     {% endfor %}
 </div>
-<!-- {% endif %} -->
+-->
 {% endblock %}
