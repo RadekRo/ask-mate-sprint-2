@@ -71,14 +71,14 @@ def get_question(cursor, id):
         
 
 @database.connection_handler
-def get_answer(cursor, id):
+def get_answer(cursor, answer_id):
     query = f"""
         SELECT id, submission_time, vote_number, question_id, message, image
         FROM answer
-        WHERE question_id = {id}
+        WHERE id = {answer_id}
        """
     cursor.execute(query)
-    return cursor.fetchall()
+    return cursor.fetchone()
         
 
 @database.connection_handler

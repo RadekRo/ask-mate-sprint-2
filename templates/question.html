@@ -73,7 +73,7 @@
     <b class="answer-title">ANSWERS</b><br/>
     {% for answer in answers %}
         <p class="answer">
-            {{answer.message}}<br/><br/>
+            <a class="delete-answer" href="{{ url_for('show_answer',answer_id=answer.id)}}">{{answer.message}}</a><br/><br/>
         {% if answer.image != "no-image" %}
                 <br/>
                 <img src="/{{answer.image}}" style="max-width: 200px"/>

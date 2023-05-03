@@ -116,6 +116,11 @@ def new_answer():
     redirect_dir = "/question/" + your_answer['question_id']
     return redirect(redirect_dir)
 
+@app.route('/answer/<answer_id>/edit')
+def show_answer(answer_id):
+    answer = data_handler.get_answer(answer_id)
+    return render_template("answer.html", answer = answer)
+
 @app.route('/question/<id>/vote_add', methods=["POST", "GET"])
 def route_vote_add(id):
     data_handler.add_vote_question(id)
