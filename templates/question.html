@@ -83,7 +83,7 @@
             {% if comment.answer_id == answer.id %}
                 Submitted: {{comment.submission_time}}<br/>
                 {{comment.message}}<a href="{{ url_for('route_delete_comment', comment_id=comment.id)}}"><img src="/static/images/recycle_bin_icon.png" alt="Delete comment" width="50" height="50" /></a><br/><br/><br/><br/>              
-                <a class="add-new-comment-answer" href="{{ url_for('route_edit_comment', comment_id=comment.id)}}">Edit comment</a><br/><br/><br/>  
+                <a class="add-new-comment-answer" href="{{ url_for('route_edit_comment', comment_id=comment.id, id=question.id)}}">Edit comment</a><br/><br/><br/>  
                 {% endif %}
         {% endfor %}
             <a class="add-new-comment-answer" href="{{ url_for('route_comment_answer', answer_id=answer.id, id=question.id)}}">Add your comment to this answer</a><br/><br/>

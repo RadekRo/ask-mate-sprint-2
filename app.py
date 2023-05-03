@@ -170,7 +170,7 @@ def edit_comment(comment_id):
     current_date = util.get_current_date()
     comment = str(request.form.get('message'))
     data_handler.edit_comment(current_date, comment, comment_id)
-    return redirect('/', id = id)
+    return redirect('/')
 
 @app.route('/question/update', methods=["GET", "POST"])
 def update_question():
