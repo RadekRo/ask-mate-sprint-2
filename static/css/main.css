@@ -93,3 +93,8 @@ header {
   font-style: italic;
   font-size: 0.8em;
 }
+
+.answer-data {
+  font-size: 0.9em;
+  text-align: right;
+}

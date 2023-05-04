@@ -57,7 +57,7 @@ def route_question(id):
 @app.route('/answer/<answer_id>/answer_add_vote', methods=["POST", "GET"])
 def route_answer_add_vote(answer_id):
     data_handler.add_vote_answer(answer_id)
-    id = request.form.get("id")
+    id = request.args.get("question_id")
     redirect_dir = "/question/" + str(id) 
     return redirect(redirect_dir)
     
@@ -65,7 +65,7 @@ def route_answer_add_vote(answer_id):
 @app.route('/answer/<answer_id>/answer_substract_vote', methods=["POST", "GET"])
 def route_answer_substract_vote(answer_id):
     data_handler.substract_vote_answer(answer_id)
-    id = request.form.get("id")
+    id = request.args.get("question_id")
     redirect_dir = "/question/" + str(id) 
     return redirect(redirect_dir)
     

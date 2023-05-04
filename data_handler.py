@@ -12,6 +12,7 @@ UPLOAD_FOLDER_FOR_QUESTIONS = 'static/images/questions/'
 UPLOAD_FOLDER_FOR_ANSWERS = 'static/images/answers/'
 QUESTION_SORT_OPTIONS = ['submission_time', 'view_number', 'vote_number', 'title', 'message']
 
+
 @database.connection_handler
 def get_all_questions(cursor, order_by, order_direction):
     query = f"""
@@ -25,6 +26,7 @@ def get_all_questions(cursor, order_by, order_direction):
     cursor.execute(query)
     return cursor.fetchall()
 
+
 @database.connection_handler
 def get_questions_number(cursor):
     query = f"""
@@ -33,6 +35,7 @@ def get_questions_number(cursor):
        """
     cursor.execute(query)
     return cursor.fetchone()
+
 
 @database.connection_handler
 def get_latest_questions(cursor, number_of_questions:int):
@@ -92,6 +95,7 @@ def get_answers(cursor, question_id):
     cursor.execute(query)
     return cursor.fetchall()
 
+
 @database.connection_handler
 def get_comments_question(cursor, question_id):
     query = f"""
@@ -103,6 +107,7 @@ def get_comments_question(cursor, question_id):
     cursor.execute(query)
     return cursor.fetchall()
 
+
 @database.connection_handler
 def get_comments_answer(cursor):
     query = f"""
@@ -113,6 +118,7 @@ def get_comments_answer(cursor):
     cursor.execute(query)
     return cursor.fetchall()
 
+
 @database.connection_handler
 def get_comment(cursor, comment_id):
     query = f"""
@@ -122,6 +128,7 @@ def get_comment(cursor, comment_id):
     """
     cursor.execute(query)
     return cursor.fetchone()
+
 
 @database.connection_handler
 def edit_comment(cursor, current_date:str, comment_message:str, comment_id):
@@ -154,6 +161,7 @@ def save_question_image(file):
     else:
         return "no-image"
 
+
 def save_answer_image(file):
     if file.filename != "":
         file_name = util.get_unique_file_name()
@@ -162,6 +170,7 @@ def save_answer_image(file):
         return UPLOAD_FOLDER_FOR_ANSWERS + file_name_with_extension
     else:
         return "no-image"
+
 
 @database.connection_handler
 def add_answer(cursor, current_date, your_answer:dict, image:str):
