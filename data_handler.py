@@ -106,7 +106,7 @@ def get_comments_question(cursor, question_id):
 @database.connection_handler
 def get_comments_answer(cursor):
     query = f"""
-    SELECT comment.answer_id, comment.id, comment.message, comment.submission_time
+    SELECT comment.answer_id, comment.id, comment.message, comment.submission_time, edited_number
     FROM comment
     INNER JOIN answer ON answer.id = comment.answer_id;
        """
@@ -127,7 +127,7 @@ def get_comment(cursor, comment_id):
 def edit_comment(cursor, current_date:str, comment_message:str, comment_id):
     query = f"""
     UPDATE comment 
-    SET (message, submission_time) = ('{comment_message}', '{current_date}')
+    SET (message, submission_time, edited_number) = ('{comment_message}', '{current_date}', edited_number + 1)
     WHERE id = {comment_id}    
     """
     cursor.execute(query)
