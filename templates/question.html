@@ -44,10 +44,6 @@
 <div class="container border-bottom py-2">
     <a href="{{ url_for('add_comment_question', id=question.id)}}" class="text-decoration-none link-warning"><i class="fa-regular fa-comment"></i> Add a comment</a>
 </div>
-<!--<div class="container border-top my-2 py-2">
-    <span class="text-secondary me-2"><b>Question Score:</b> </span><a href="" class="text-decoration-none text-danger"><i class="fa-solid fa-square-minus"></i></a>
-    <span class="text-secondary mx-1">{{question.vote_number}}</span> <a href="" class="text-decoration-none text-success"><i class="fa-solid fa-square-plus"></i></a>
-</div>-->
 <div class="answers-header container bg-light py-2 d-flex justify-content-between">
     <h5>{{ answers|length }} Answers</h5>
     <a href="{{ url_for('route_answer', id=question.id)}}" class="btn btn-secondary btn-sm" role="button">Add New Answer</a>
