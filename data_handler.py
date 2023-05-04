@@ -331,16 +331,37 @@ def count_view(cursor, id:int):
 
 @database.connection_handler
 def search_for_questions(cursor, search_argument):
+    # query = f"""
+    #     SELECT * FROM question 
+    #     WHERE id IN (SELECT DISTINCT question_id
+    #                     FROM answer 
+    #                     WHERE message LIKE '%{search_argument}%')
+    #     OR title LIKE '%{search_argument}%' 
+    #     OR message LIKE '%{search_argument}%'
+    # """
+
     query = f"""
-        SELECT * FROM question 
+        SELECT id, submission_time, view_number, vote_number, title, message, 
+            COALESCE((SELECT COUNT(answer.question_id)
+            FROM answer 
+            WHERE answer.question_id = question.id GROUP by answer.question_id), 0) as answer_number 
+        FROM question 
         WHERE id IN (SELECT DISTINCT question_id
                         FROM answer 
                         WHERE message LIKE '%{search_argument}%')
-        OR title LIKE '%{search_argument}%' 
-        OR message LIKE '%{search_argument}%'
+            OR title LIKE '%{search_argument}%' 
+            OR message LIKE '%{search_argument}%'
+        ORDER BY submission_time DESC
     """
     cursor.execute(query)
     return cursor.fetchall()
+
+# SELECT id, submission_time, view_number, vote_number, title, message, 
+#         COALESCE((SELECT COUNT(answer.question_id)
+#         FROM answer 
+#         WHERE answer.question_id = question.id GROUP by answer.question_id), 0) as answer_number
+#         FROM question
+#         ORDER BY {order_by} {order_direction}
 
 
 @database.connection_handler

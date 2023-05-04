@@ -224,7 +224,11 @@ def search_questions():
     search_argument = request.args.get('q')
     filtered_questions = data_handler.search_for_questions(search_argument)
     search_result_number = len(filtered_questions)
-    return render_template("search.html", filtered_questions = filtered_questions, search_result_number = search_result_number)
+    all_question_tags = data_handler.get_all_question_tags()
+    return render_template("search.html", 
+                           filtered_questions = filtered_questions, 
+                           search_result_number = search_result_number, 
+                           all_question_tags = all_question_tags)
 
 
 @app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
