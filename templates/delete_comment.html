@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
 <b class="comment-title-answer">DELETE COMMENT</b><br/>
-<form action="/comment/{{comment_id}}/delete" method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="comment_id" value={{comment_id}}>
+<form action="/comments/{{comment_id}}/delete" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="comment_id" value="{{comment_id}}">
     <input type="hidden" name="id" value="{{id}}">
     
         Submitted: {{comment.submission_time}}<br/>

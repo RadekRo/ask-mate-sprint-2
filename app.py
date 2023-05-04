@@ -151,6 +151,7 @@ def delete_answer(id):
 @app.route('/comments/<comment_id>/delete_comment')
 def route_delete_comment(comment_id):
     id = request.args.get('id')
+    print(id)
     comment = data_handler.get_comment(comment_id)
     return render_template("delete_comment.html", id = id, comment = comment, comment_id = comment_id)
 
@@ -158,7 +159,9 @@ def route_delete_comment(comment_id):
 @app.route('/comments/<comment_id>/delete', methods=["POST", "GET"])
 def delete_comment(comment_id):
     if request.method == "POST":
+        comment_id = request.form.get('comment_id')
         id = request.form.get('id')
+        print(id)
         data_handler.remove_comment(comment_id)
         redirect_dir = "/question/" + id
         return redirect(redirect_dir)
