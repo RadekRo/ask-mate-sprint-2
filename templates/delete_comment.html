@@ -1,8 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="question-list question-txt ">
-        <form action="/comment/{{comment_id}}/delete_comment" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="comment_id" value={{comment_id}}>
-        Comment deleted succesfully
+<b class="comment-title-answer">DELETE COMMENT</b><br/>
+<form action="/comment/{{comment_id}}/delete" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="comment_id" value={{comment_id}}>
+    <input type="hidden" name="id" value="{{id}}">
+    
+        Submitted: {{comment.submission_time}}<br/>
+        Comment: {{comment.message}}<br/>
+        
+            <button class="add-your-answer" type="submit">Are you sure?</button>
+        </form>
     </div>
 {% endblock %}

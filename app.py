@@ -150,12 +150,22 @@ def delete_answer(id):
     redirect_dir = "/question/" + question_id
     return redirect(redirect_dir)
 
-@app.route('/comments/<comment_id>/delete_comment', methods=["POST", "GET"])
+@app.route('/comments/<comment_id>/delete_comment')
 def route_delete_comment(comment_id):
-    data_handler.remove_comment(comment_id)
-    return render_template("delete_comment.html", comment_id = comment_id)
-    
+    id = request.args.get('id')
+    comment = data_handler.get_comment(comment_id)
+    return render_template("delete_comment.html", id = id, comment = comment, comment_id = comment_id)
 
+
+@app.route('/comments/<comment_id>/delete', methods=["POST", "GET"])
+def delete_comment(comment_id):
+    if request.method == "POST":
+        id = request.form.get('id')
+        data_handler.remove_comment(comment_id)
+        redirect_dir = "/question/" + id
+        return redirect(redirect_dir)
+    
+    
 @app.route('/question/<id>/edit')
 def edit_question(id):
     question = data_handler.get_question(id)
@@ -165,7 +175,6 @@ def edit_question(id):
 def route_edit_comment(comment_id):
     id = request.args.get('id')
     comment = data_handler.get_comment(comment_id)
-    print(id)
     return render_template("edit_comment.html", comment_id = comment_id, comment = comment, id = id)
 
 @app.route('/comment/<comment_id>/edit_comment', methods=["GET", "POST"])
@@ -175,7 +184,6 @@ def edit_comment(comment_id):
         current_date = util.get_current_date()
         comment = str(request.form.get('message'))
         data_handler.edit_comment(current_date, comment, comment_id)
-        print(id)
         redirect_dir = "/question/" + id
         return redirect(redirect_dir)
     
