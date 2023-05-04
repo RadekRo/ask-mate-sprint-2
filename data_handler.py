@@ -98,7 +98,7 @@ def get_comments_question(cursor, question_id):
         SELECT id, question_id, message, submission_time, edited_number
         FROM comment
         WHERE question_id = {question_id}
-        ORDER by id DESC
+        ORDER by id ASC
        """
     cursor.execute(query)
     return cursor.fetchall()
