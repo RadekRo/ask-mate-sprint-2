@@ -195,7 +195,7 @@ def add_comment_answer(cursor, question_comment, answer_id:int):
     cursor.execute(query)
 
 
-database.connection_handler
+@database.connection_handler
 def add_vote_question(cursor, id:int):
     query = f"""
         UPDATE question
@@ -205,8 +205,8 @@ def add_vote_question(cursor, id:int):
     cursor.execute(query)
 
 
-database.connection_handler
-def add_vote_question(cursor, id:int):
+@database.connection_handler
+def substract_vote_question(cursor, id:int):
     query = f"""
         UPDATE question
         SET vote_number = vote_number - 1

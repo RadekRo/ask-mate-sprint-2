@@ -126,17 +126,15 @@ def show_answer(answer_id):
     answer = data_handler.get_answer(answer_id)
     return render_template("answer.html", answer = answer)
 
-@app.route('/question/<id>/vote_add', methods=["POST", "GET"])
-def route_vote_add(id):
+@app.route('/question/<id>/vote_add')
+def question_vote_add(id):
     data_handler.add_vote_question(id)
-    redirect_dir = "/?order_by=" + request.form.get('order_by') + "&order_direction=" + request.form.get('order_direction')
-    return redirect(redirect_dir)
+    return redirect("/question/" + id)
 
-@app.route('/question/<id>/vote_substract', methods=["POST", "GET"])
-def route_vote_substract(id):
+@app.route('/question/<id>/vote_substract')
+def question_vote_substract(id):
     data_handler.substract_vote_question(id)
-    redirect_dir = "/?order_by=" + request.form.get('order_by') + "&order_direction=" + request.form.get('order_direction')
-    return redirect(redirect_dir)
+    return redirect("/question/" + id)
 
 @app.route('/question/<id>/delete')
 def delete_question(id):
@@ -186,9 +184,6 @@ def edit_comment(comment_id):
         data_handler.edit_comment(current_date, comment, comment_id)
         redirect_dir = "/question/" + id
         return redirect(redirect_dir)
-    
-    
-    
     return redirect('/')
 
 @app.route('/question/update', methods=["GET", "POST"])
