@@ -200,11 +200,6 @@ def new_answer():
     return redirect(redirect_dir)
 
 @app.route('/answer/<answer_id>/edit')
-def show_answer(answer_id):
-    answer = data_handler.get_answer(answer_id)
-    return render_template("answer.html", answer = answer)
-
-@app.route('/answer/<answer_id>/edit')
 def route_edit_answer(answer_id):
     id = request.args.get('id')
     answer = data_handler.get_answer(answer_id)
