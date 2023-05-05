@@ -302,21 +302,13 @@ def remove_comment(cursor, comment_id:int):
     """
     cursor.execute(query)
 
-def remove_answer(id):
-    answers = import_data_file(DATA_FILE_PATH_ANSWER)
-    answers_filtered = list()
-    question_id = 0
-    for answer in answers:
-        if answer[0] == str(id):
-            file_path = "static/images/answers/" + str(id) + ".jpg" 
-            os.path.exists(file_path) and os.remove(file_path)
-            question_id = answer[3]
-            continue
-        else:
-            answers_filtered.append(answer)
-
-    save_data(DATA_FILE_PATH_ANSWER, answers_filtered)
-    return question_id
+@database.connection_handler
+def remove_answer(cursor, answer_id:int):
+    query = f"""
+    DELETE FROM answer
+    WHERE id = {answer_id}
+    """
+    cursor.execute(query)
 
 @database.connection_handler
 def update_question(question_id, question_date, question_title, question_message, question_image):

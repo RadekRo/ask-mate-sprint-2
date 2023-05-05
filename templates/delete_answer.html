@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+<b class="comment-title-answer">DELETE ANSWER</b><br/>
+<form action="/answer/{{answer_id}}/delete_answer" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="answer_id" value="{{answer_id}}">
+    <input type="hidden" name="id" value="{{id}}">
+    
+        Submitted: {{answer.submission_time}}<br/>
+        Comment: {{answer.message}}<br/>
+        
+            <button class="add-your-answer" type="submit">Are you sure?</button>
+        </form>
+    </div>
+{% endblock %}
