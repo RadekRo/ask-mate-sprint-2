@@ -180,7 +180,6 @@ def update_question_image(file, image):
         return UPLOAD_FOLDER_FOR_QUESTIONS + file_name_with_extension
     else:
         return image
-        
 
 def save_answer_image(file):
     if file.filename != "":
