@@ -3,6 +3,7 @@
     <div class="question-list question-txt">
         <form action="/question/update" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="id" value="{{id}}"/>
+            <input type="hidden" name="question_image" value="{{question.image}}"/>
             <p>
                 <label class="question-title " for="title">Question title:</label><br/>
                 <input id="title" name="title" type="text" value="{{question.title}}"/>

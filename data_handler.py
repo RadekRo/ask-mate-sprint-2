@@ -171,6 +171,16 @@ def save_question_image(file):
     else:
         return "no-image"
 
+def update_question_image(file, image):
+    if file.filename != "":
+        image != "no-image" and os.remove(image)
+        file_name = util.get_unique_file_name()
+        file_name_with_extension =  file_name + ".jpg"
+        file.save(os.path.join(UPLOAD_FOLDER_FOR_QUESTIONS, file_name_with_extension))
+        return UPLOAD_FOLDER_FOR_QUESTIONS + file_name_with_extension
+    else:
+        return image
+        
 
 def save_answer_image(file):
     if file.filename != "":
@@ -311,17 +321,13 @@ def remove_answer(cursor, answer_id:int):
     cursor.execute(query)
 
 @database.connection_handler
-def update_question(question_id, question_date, question_title, question_message, question_image):
-    questions = import_data_file(DATA_FILE_PATH_QUESTION)
-    updated_question = [question_date, question_title, question_message]
-    updated_image = question_image
-    for question in questions:
-        if question[0] == str(question_id):
-            question[1], question[4], question[5] = updated_question
-            if updated_image != "":
-                question[6] = updated_image
-    save_data(DATA_FILE_PATH_QUESTION, questions)
-
+def update_question(cursor, question_id, question_date, question_title, question_message, question_image):
+    query = f"""
+    UPDATE question 
+    SET (submission_time, title, message, image) = ('{question_date}', '{question_title}', '{question_message}', '{question_image}')
+    WHERE id = {question_id}
+    """
+    cursor.execute(query)
 
 @database.connection_handler
 def count_view(cursor, id:int):

@@ -119,7 +119,6 @@ def delete_tag(tag_id, question_id):
 @app.route('/question/<id>/edit')
 def edit_question(id):
     question = data_handler.get_question(id)
-    print(question)
     return render_template("edit-question.html", 
                            id = id, 
                            question = question)
@@ -129,13 +128,11 @@ def update_question():
 
     if request.method == 'POST':
         question_id = request.form.get('id')    
+        question_image = request.form.get('question_image')  
         current_date = util.get_current_date()
     
-        if 'file' not in request.files:
-            image = ""
-        else:
-            file = request.files['file']
-            image = data_handler.save_file(file, question_id, "question")
+        file_name = request.files['file']
+        image = data_handler.update_question_image(file_name, question_image)
         updated_date = current_date
         updated_title = request.form.get('title')
         updated_message = request.form.get('message')
