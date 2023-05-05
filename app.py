@@ -204,18 +204,35 @@ def show_answer(answer_id):
     answer = data_handler.get_answer(answer_id)
     return render_template("answer.html", answer = answer)
 
+@app.route('/answer/<answer_id>/edit')
+def route_edit_answer(answer_id):
+    id = request.args.get('id')
+    answer = data_handler.get_answer(answer_id)
+    return render_template("edit_answer.html", 
+            id = id, answer = answer, answer_id = answer_id)
+
+@app.route('/answer/<answer_id>/edit_answer', methods=["POST", "GET"])
+def edit_answer(answer_id):
+    if request.method == "POST":
+        id = request.form.get('id')
+        current_date = util.get_current_date()
+        answer = str(request.form.get('message'))
+        data_handler.edit_answer(current_date, answer, answer_id)
+        redirect_dir = "/question/" + id
+        return redirect(redirect_dir)
+    return redirect('/')
+
 @app.route('/answer/<id>/delete')
 def delete_answer(id):
     question_id = data_handler.remove_answer(id)
     redirect_dir = "/question/" + question_id
     return redirect(redirect_dir)
-
+    
 
 
 @app.route('/comments/<comment_id>/delete_comment')
 def route_delete_comment(comment_id):
     id = request.args.get('id')
-    print(id)
     comment = data_handler.get_comment(comment_id)
     return render_template("delete_comment.html", 
                            id = id, 
@@ -227,7 +244,6 @@ def delete_comment(comment_id):
     if request.method == "POST":
         comment_id = request.form.get('comment_id')
         id = request.form.get('id')
-        print(id)
         data_handler.remove_comment(comment_id)
         redirect_dir = "/question/" + id
         return redirect(redirect_dir)

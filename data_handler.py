@@ -139,6 +139,16 @@ def edit_comment(cursor, current_date:str, comment_message:str, comment_id):
     """
     cursor.execute(query)
 
+@database.connection_handler
+def edit_answer(cursor, current_date:str, answer_message:str, answer_id):
+    query = f"""
+    UPDATE answer 
+    SET (message, submission_time) = ('{answer_message}', '{current_date}')
+    WHERE id = {answer_id}    
+    """
+    cursor.execute(query)
+
+
 
 @database.connection_handler
 def add_question(cursor, current_date:str, your_question:dict, image:str):
