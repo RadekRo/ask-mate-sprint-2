@@ -8,8 +8,9 @@
         <label for="message">Message:</label><br/>
         <textarea id="message" name="message" rows="4" cols="50">{{answer.message}}</textarea>
     </p>
+    
     <button class="add-your-answer" type="submit">Edit your answer</button>
-    <form action="/list" enctype="multipart/form-data">
+    <form action="{{url_for('route_question', id = id)}}" enctype="multipart/form-data">
         <button class="add-your-answer" type="submit">Go back</button>
     </form>
 </form>
