@@ -1,17 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
-<b class="comment-title-answer">DELETE COMMENT</b><br/>
+<b class="comment-title-answer">DELETE COMMENT</b><br/><br/>
+Submitted: {{comment.submission_time}}<br/>
+Comment: {{comment.message}}<br/>
+Are you sure? <br/>
 <form action="/comments/{{comment_id}}/delete" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="comment_id" value="{{comment_id}}">
     <input type="hidden" name="id" value="{{id}}">
     
-        Submitted: {{comment.submission_time}}<br/>
-        Comment: {{comment.message}}<br/>
-        Are you sure? <br/>
-            <button class="add-your-answer" type="submit">Yes</button>
-        </form>
-<form action="/list" enctype="multipart/form-data">
-            <button class="add-your-answer" type="submit">No</button>
+
+        <button class="btn btn-success btn-sm" type="submit">Yes</button>
+        <span><a href="{{url_for('route_question', id = id)}}" class="btn btn-danger btn-sm" role="button">No</a></span>
         </form>
 
     </div>
