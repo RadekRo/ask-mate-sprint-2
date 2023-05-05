@@ -404,9 +404,3 @@ def add_tag_to_question(cursor, question_id, tag_id):
 def delete_tag(cursor, tag_id, question_id):
     query = f"DELETE from question_tag WHERE question_id = {question_id} AND tag_id = {tag_id}"
     cursor.execute(query)
-
-def add_markups_to_questions(questions_list, searching_phrase):
-    for question in questions_list:
-        question['title'] = question['title'].replace(searching_phrase, '<mark>' + searching_phrase + '</mark>')
-        question['message'] = question['message'].replace(searching_phrase, '<mark>' + searching_phrase + '</mark>')
-    return questions_list
