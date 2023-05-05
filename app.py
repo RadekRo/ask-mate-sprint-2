@@ -281,7 +281,15 @@ def search_questions():
                            search_result_number = search_result_number, 
                            all_question_tags = all_question_tags)
 
-
+@app.route('/search/<tag_id>')
+def search_questions_by_tag(tag_id):
+    filtered_questions = data_handler.search_for_questions_by_tag(tag_id)
+    search_result_number = len(filtered_questions)
+    all_question_tags = data_handler.get_all_question_tags()
+    return render_template("search.html", 
+                           filtered_questions = filtered_questions, 
+                           search_result_number = search_result_number, 
+                           all_question_tags = all_question_tags)
 
 if __name__ == '__main__':
     app.run()
