@@ -30,7 +30,7 @@
         <p>
             {% for tag in all_question_tags %}
                 {% if tag.question_id == question.id %}
-                    <div class="tag rounded px-1">#{{tag.tag_name}}</div>
+                <a href="{{ url_for('search_questions_by_tag',tag_id=tag.tag_id)}}" class="link-dark text-decoration-none"><div class="tag rounded px-1">#{{tag.tag_name}}</div></a>
                 {% endif %}
             {% endfor %}
         </p>

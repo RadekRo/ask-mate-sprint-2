@@ -359,7 +359,7 @@ def search_for_questions(cursor, search_argument):
 def search_for_questions_by_tag(cursor, tag_id):
     query = f"""
         SELECT * FROM question
-        WHERE question.id in (SELECT question_id FROM question_tag WHERE tag_id = {tag_id})
+        WHERE question.id IN (SELECT question_id FROM question_tag WHERE tag_id = {tag_id})
         ORDER BY submission_time DESC
     """
     cursor.execute(query)
