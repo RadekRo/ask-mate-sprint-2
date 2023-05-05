@@ -120,6 +120,39 @@ def edit_question(id):
     print(question)
     return render_template("edit-question.html", id = id, question = question)
 
+@app.route('/question/update', methods=["GET", "POST"])
+def update_question():
+
+    if request.method == 'POST':
+        question_id = request.form.get('id')    
+        current_date = util.get_current_date()
+    
+        if 'file' not in request.files:
+            image = ""
+        else:
+            file = request.files['file']
+            image = data_handler.save_file(file, question_id, "question")
+        updated_date = current_date
+        updated_title = request.form.get('title')
+        updated_message = request.form.get('message')
+        updated_image = image
+
+    data_handler.update_question(question_id, updated_date, updated_title, updated_message, updated_image)
+    redirect_dir = "/question/" + str(question_id)
+    return redirect(redirect_dir)
+
+@app.route('/question/<id>/new-comment', methods=["POST", "GET"])
+def add_comment_question(id):
+
+    if request.method == 'GET':
+        return render_template('new-comment.html')
+    question_comment = request.form.get('message')
+    data_handler.add_comment_question(question_comment, id)
+    redirect_dir = "/question/" + id
+    return redirect(redirect_dir)
+
+
+
 @app.route('/answer/<answer_id>/answer_add_vote', methods=["POST", "GET"])
 def route_answer_add_vote(answer_id):
     data_handler.add_vote_answer(answer_id)
@@ -190,8 +223,6 @@ def delete_comment(comment_id):
         redirect_dir = "/question/" + id
         return redirect(redirect_dir)
     
-    
-
 @app.route('/comment/<comment_id>/edit')
 def route_edit_comment(comment_id):
     id = request.args.get('id')
@@ -209,36 +240,6 @@ def edit_comment(comment_id):
         return redirect(redirect_dir)
     return redirect('/')
 
-@app.route('/question/update', methods=["GET", "POST"])
-def update_question():
-
-    if request.method == 'POST':
-        question_id = request.form.get('id')    
-        current_date = util.get_current_date()
-    
-        if 'file' not in request.files:
-            image = ""
-        else:
-            file = request.files['file']
-            image = data_handler.save_file(file, question_id, "question")
-        updated_date = current_date
-        updated_title = request.form.get('title')
-        updated_message = request.form.get('message')
-        updated_image = image
-
-    data_handler.update_question(question_id, updated_date, updated_title, updated_message, updated_image)
-    redirect_dir = "/question/" + str(question_id)
-    return redirect(redirect_dir)
-
-@app.route('/question/<id>/new-comment', methods=["POST", "GET"])
-def add_comment_question(id):
-
-    if request.method == 'GET':
-        return render_template('new-comment.html')
-    question_comment = request.form.get('message')
-    data_handler.add_comment_question(question_comment, id)
-    redirect_dir = "/question/" + id
-    return redirect(redirect_dir)
 
 
 @app.route('/search', methods=['GET'])
