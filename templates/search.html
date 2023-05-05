@@ -28,8 +28,8 @@
         <p class="question-info-element">{{question.view_number}} views</p>
     </div>
     <div class="question-details">
-        <p class="question-title"><a href="{{ url_for('route_question',id=question.id)}}" class="text-decoration-none">{{question.title}}</a></p>
-        <p class="question-message">{{question.message}}</p>
+        <p class="question-title"><a href="{{ url_for('route_question',id=question.id)}}" class="text-decoration-none">{{question.title | safe}}</a></p>
+        <p class="question-message">{{question.message | safe}}</p>
         <p class="question-date"><i class="fa-regular fa-calendar-days"></i> Posted: {{question.submission_time}}</p>
         <p>
             {% for tag in all_question_tags %}
