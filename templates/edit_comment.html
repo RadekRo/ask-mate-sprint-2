@@ -9,6 +9,9 @@
         <textarea id="message" name="message" rows="4" cols="50">{{comment.message}}</textarea>
     </p>
     <button class="add-your-answer" type="submit">Edit your comment</button>
+    <form action="/list" enctype="multipart/form-data">
+        <button class="add-your-answer" type="submit">Go back</button>
+    </form>
 </form>
     
 {% endblock %}

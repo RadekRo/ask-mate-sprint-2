@@ -7,8 +7,11 @@
     
         Submitted: {{answer.submission_time}}<br/>
         Comment: {{answer.message}}<br/>
-        
-            <button class="add-your-answer" type="submit">Are you sure?</button>
+        Are you sure? <br/>
+            <button class="add-your-answer" type="submit">Yes</button>
+        </form>
+<form action="/list" enctype="multipart/form-data">
+            <button class="add-your-answer" type="submit">No</button>
         </form>
     </div>
 {% endblock %}
