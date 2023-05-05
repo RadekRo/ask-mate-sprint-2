@@ -37,7 +37,6 @@ def route_list():
                            order_by = order_by, 
                            order_direction = order_direction)
 
-
 @app.route('/question/<id>')
 def route_question(id):
     question = data_handler.get_question(id)
@@ -53,23 +52,6 @@ def route_question(id):
                            tags = tags, 
                            comments_answer = comments_answer)
 
-
-@app.route('/answer/<answer_id>/answer_add_vote', methods=["POST", "GET"])
-def route_answer_add_vote(answer_id):
-    data_handler.add_vote_answer(answer_id)
-    id = request.args.get("question_id")
-    redirect_dir = "/question/" + str(id) 
-    return redirect(redirect_dir)
-    
-
-@app.route('/answer/<answer_id>/answer_substract_vote', methods=["POST", "GET"])
-def route_answer_substract_vote(answer_id):
-    data_handler.substract_vote_answer(answer_id)
-    id = request.args.get("question_id")
-    redirect_dir = "/question/" + str(id) 
-    return redirect(redirect_dir)
-    
-
 @app.route('/ask-question', methods=["POST","GET"])
 def ask_question():
     
@@ -83,17 +65,75 @@ def ask_question():
     data_handler.add_question(current_date, your_question, image)
     return redirect('/list')
 
-
 @app.route('/question/<id>/new-answer')
 def route_answer(id):
     return render_template("new-answer.html", id=id)
-
 
 @app.route('/question/<id>/new-comment')
 def route_comment(id):
     return render_template("new-comment.html", id=id)
 
+@app.route('/question/<id>/vote_add')
+def question_vote_add(id):
+    data_handler.add_vote_question(id)
+    return redirect("/question/" + id)
 
+@app.route('/question/<id>/vote_substract')
+def question_vote_substract(id):
+    data_handler.substract_vote_question(id)
+    return redirect("/question/" + id)
+
+@app.route('/question/<id>/delete')
+def delete_question(id):
+    file_path = data_handler.get_question_image_path(id)
+    data_handler.remove_question(id, file_path['image'])
+    return redirect("/")
+
+@app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
+def add_tag(question_id):
+    if request.method == "POST":
+        
+        question_id = request.form.get('question_id')
+        new_tag = request.form.get('new_tag')
+        
+        if new_tag != "":
+            data_handler.add_new_tag(new_tag.lower()) 
+            tag = new_tag
+        else:
+            tag = request.form.get('tag')
+        
+        tag_id = data_handler.get_tag_id(tag)['id']
+        data_handler.add_tag_to_question(question_id, tag_id)
+        return redirect("/question/" + str(question_id))
+    
+    existing_tags = data_handler.get_tags_list()
+    return render_template("add-tag.html", question_id = question_id, existing_tags = existing_tags)
+
+@app.route('/question/<question_id>/tag/<tag_id>/delete')
+def delete_tag(tag_id, question_id):
+    data_handler.delete_tag(tag_id, question_id)
+    return redirect('/question/' + question_id)
+
+@app.route('/question/<id>/edit')
+def edit_question(id):
+    question = data_handler.get_question(id)
+    print(question)
+    return render_template("edit-question.html", id = id, question = question)
+
+@app.route('/answer/<answer_id>/answer_add_vote', methods=["POST", "GET"])
+def route_answer_add_vote(answer_id):
+    data_handler.add_vote_answer(answer_id)
+    id = request.args.get("question_id")
+    redirect_dir = "/question/" + str(id) 
+    return redirect(redirect_dir)
+    
+@app.route('/answer/<answer_id>/answer_substract_vote', methods=["POST", "GET"])
+def route_answer_substract_vote(answer_id):
+    data_handler.substract_vote_answer(answer_id)
+    id = request.args.get("question_id")
+    redirect_dir = "/question/" + str(id) 
+    return redirect(redirect_dir)
+    
 @app.route('/answer/<answer_id>/new-comment_answer',  methods=["POST", "GET"])
 def route_comment_answer(answer_id):
     id = request.args.get('id')
@@ -105,7 +145,6 @@ def route_comment_answer(answer_id):
         redirect_dir = "/question/" + id
         return redirect(redirect_dir)
     return render_template("new-comment_answer.html", answer_id=answer_id, id = id)
-
 
 @app.route('/new-answer', methods=["POST", "GET"])
 def new_answer():
@@ -126,27 +165,13 @@ def show_answer(answer_id):
     answer = data_handler.get_answer(answer_id)
     return render_template("answer.html", answer = answer)
 
-@app.route('/question/<id>/vote_add')
-def question_vote_add(id):
-    data_handler.add_vote_question(id)
-    return redirect("/question/" + id)
-
-@app.route('/question/<id>/vote_substract')
-def question_vote_substract(id):
-    data_handler.substract_vote_question(id)
-    return redirect("/question/" + id)
-
-@app.route('/question/<id>/delete')
-def delete_question(id):
-    file_path = data_handler.get_question_image_path(id)
-    data_handler.remove_question(id, file_path['image'])
-    return redirect("/")
-
 @app.route('/answer/<id>/delete')
 def delete_answer(id):
     question_id = data_handler.remove_answer(id)
     redirect_dir = "/question/" + question_id
     return redirect(redirect_dir)
+
+
 
 @app.route('/comments/<comment_id>/delete_comment')
 def route_delete_comment(comment_id):
@@ -154,7 +179,6 @@ def route_delete_comment(comment_id):
     print(id)
     comment = data_handler.get_comment(comment_id)
     return render_template("delete_comment.html", id = id, comment = comment, comment_id = comment_id)
-
 
 @app.route('/comments/<comment_id>/delete', methods=["POST", "GET"])
 def delete_comment(comment_id):
@@ -167,11 +191,6 @@ def delete_comment(comment_id):
         return redirect(redirect_dir)
     
     
-@app.route('/question/<id>/edit')
-def edit_question(id):
-    question = data_handler.get_question(id)
-    print(question)
-    return render_template("edit-question.html", id = id, question = question)
 
 @app.route('/comment/<comment_id>/edit')
 def route_edit_comment(comment_id):
@@ -208,7 +227,6 @@ def update_question():
         updated_image = image
 
     data_handler.update_question(question_id, updated_date, updated_title, updated_message, updated_image)
-
     redirect_dir = "/question/" + str(question_id)
     return redirect(redirect_dir)
 
@@ -235,31 +253,6 @@ def search_questions():
                            all_question_tags = all_question_tags)
 
 
-@app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
-def add_tag(question_id):
-    if request.method == "POST":
-        
-        question_id = request.form.get('question_id')
-        new_tag = request.form.get('new_tag')
-        
-        if new_tag != "":
-            data_handler.add_new_tag(new_tag.lower()) 
-            tag = new_tag
-        else:
-            tag = request.form.get('tag')
-        
-        tag_id = data_handler.get_tag_id(tag)['id']
-        data_handler.add_tag_to_question(question_id, tag_id)
-        return redirect("/question/" + str(question_id))
-    
-    existing_tags = data_handler.get_tags_list()
-    return render_template("add-tag.html", question_id = question_id, existing_tags = existing_tags)
-
-
-@app.route('/question/<question_id>/tag/<tag_id>/delete')
-def delete_tag(tag_id, question_id):
-    data_handler.delete_tag(tag_id, question_id)
-    return redirect('/question/' + question_id)
 
 if __name__ == '__main__':
     app.run()

@@ -308,6 +308,7 @@ def remove_answer(id):
     save_data(DATA_FILE_PATH_ANSWER, answers_filtered)
     return question_id
 
+@database.connection_handler
 def update_question(question_id, question_date, question_title, question_message, question_image):
     questions = import_data_file(DATA_FILE_PATH_QUESTION)
     updated_question = [question_date, question_title, question_message]
