@@ -170,6 +170,7 @@ def delete_comment(comment_id):
 @app.route('/question/<id>/edit')
 def edit_question(id):
     question = data_handler.get_question(id)
+    print(question)
     return render_template("edit-question.html", id = id, question = question)
 
 @app.route('/comment/<comment_id>/edit')
