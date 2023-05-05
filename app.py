@@ -107,7 +107,9 @@ def add_tag(question_id):
         return redirect("/question/" + str(question_id))
     
     existing_tags = data_handler.get_tags_list()
-    return render_template("add-tag.html", question_id = question_id, existing_tags = existing_tags)
+    return render_template("add-tag.html", 
+                           question_id = question_id, 
+                           existing_tags = existing_tags)
 
 @app.route('/question/<question_id>/tag/<tag_id>/delete')
 def delete_tag(tag_id, question_id):
@@ -118,7 +120,9 @@ def delete_tag(tag_id, question_id):
 def edit_question(id):
     question = data_handler.get_question(id)
     print(question)
-    return render_template("edit-question.html", id = id, question = question)
+    return render_template("edit-question.html", 
+                           id = id, 
+                           question = question)
 
 @app.route('/question/update', methods=["GET", "POST"])
 def update_question():
@@ -177,7 +181,9 @@ def route_comment_answer(answer_id):
         data_handler.add_comment_answer(answer_comment, answer_id)
         redirect_dir = "/question/" + id
         return redirect(redirect_dir)
-    return render_template("new-comment_answer.html", answer_id=answer_id, id = id)
+    return render_template("new-comment_answer.html", 
+                           answer_id=answer_id, 
+                           id = id)
 
 @app.route('/new-answer', methods=["POST", "GET"])
 def new_answer():
@@ -211,7 +217,10 @@ def route_delete_comment(comment_id):
     id = request.args.get('id')
     print(id)
     comment = data_handler.get_comment(comment_id)
-    return render_template("delete_comment.html", id = id, comment = comment, comment_id = comment_id)
+    return render_template("delete_comment.html", 
+                           id = id, 
+                           comment = comment, 
+                           comment_id = comment_id)
 
 @app.route('/comments/<comment_id>/delete', methods=["POST", "GET"])
 def delete_comment(comment_id):
@@ -227,7 +236,10 @@ def delete_comment(comment_id):
 def route_edit_comment(comment_id):
     id = request.args.get('id')
     comment = data_handler.get_comment(comment_id)
-    return render_template("edit_comment.html", comment_id = comment_id, comment = comment, id = id)
+    return render_template("edit_comment.html", 
+                           comment_id = comment_id, 
+                           comment = comment, 
+                           id = id)
 
 @app.route('/comment/<comment_id>/edit_comment', methods=["GET", "POST"])
 def edit_comment(comment_id):
