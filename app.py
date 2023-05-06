@@ -69,9 +69,6 @@ def ask_question():
 def route_answer(id):
     return render_template("new-answer.html", id=id)
 
-@app.route('/question/<id>/new-comment')
-def route_comment(id):
-    return render_template("new-comment.html", id=id)
 
 @app.route('/question/<id>/vote_add')
 def question_vote_add(id):
@@ -146,11 +143,12 @@ def update_question():
 def add_comment_question(id):
 
     if request.method == 'GET':
-        return render_template('new-comment.html')
-    question_comment = request.form.get('message')
-    data_handler.add_comment_question(question_comment, id)
-    redirect_dir = "/question/" + id
-    return redirect(redirect_dir)
+        return render_template('new-comment.html', id = id)
+    if request.method == 'POST':
+        question_comment = request.form.get('message')
+        data_handler.add_comment_question(question_comment, id)
+        redirect_dir = "/question/" + id
+        return redirect(redirect_dir)
 
 
 
@@ -286,7 +284,6 @@ def search_questions():
 def search_questions_by_tag(tag_id):
     filtered_questions = data_handler.search_for_questions_by_tag(tag_id)
     search_result_number = len(filtered_questions)
-    questions_with_tags = data_handler
     all_question_tags = data_handler.get_all_question_tags()
     return render_template("search.html", 
                            filtered_questions = filtered_questions, 
