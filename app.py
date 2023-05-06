@@ -69,10 +69,6 @@ def ask_question():
 def route_answer(id):
     return render_template("new-answer.html", id=id)
 
-@app.route('/question/<id>/new-comment')
-def route_comment(id):
-    return render_template("new-comment.html", id=id)
-
 @app.route('/question/<id>/vote_add')
 def question_vote_add(id):
     data_handler.add_vote_question(id)
@@ -146,11 +142,12 @@ def update_question():
 def add_comment_question(id):
 
     if request.method == 'GET':
-        return render_template('new-comment.html')
-    question_comment = request.form.get('message')
-    data_handler.add_comment_question(question_comment, id)
-    redirect_dir = "/question/" + id
-    return redirect(redirect_dir)
+        return render_template('new-comment.html', id = id)
+    if request.method == 'POST':
+        question_comment = request.form.get('message')
+        data_handler.add_comment_question(question_comment, id)
+        redirect_dir = "/question/" + id
+        return redirect(redirect_dir)
 
 
 
@@ -269,7 +266,6 @@ def edit_comment(comment_id):
     return redirect('/')
 
 
-
 @app.route('/search', methods=['GET'])
 def search_questions():
     search_argument = request.args.get('q')
@@ -282,11 +278,11 @@ def search_questions():
                            search_result_number = search_result_number, 
                            all_question_tags = all_question_tags)
 
+
 @app.route('/search/<tag_id>')
 def search_questions_by_tag(tag_id):
     filtered_questions = data_handler.search_for_questions_by_tag(tag_id)
     search_result_number = len(filtered_questions)
-    questions_with_tags = data_handler
     all_question_tags = data_handler.get_all_question_tags()
     return render_template("search.html", 
                            filtered_questions = filtered_questions, 
