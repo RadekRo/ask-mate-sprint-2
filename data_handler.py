@@ -208,8 +208,8 @@ def add_comment_question(cursor, question_comment, id:int):
     current_date = util.get_current_date()
     cursor.execute("""
         INSERT INTO comment (question_id, message, submission_time) 
-        VALUES (%s, %s, %s);""", 
-    (id, question_comment, current_date))
+        VALUES (%(id)s, %(comment)s, %(date)s);""", 
+    {"id":id, "date":current_date, "comment":question_comment})
 
 
 @database.connection_handler
