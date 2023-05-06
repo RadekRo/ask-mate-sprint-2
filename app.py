@@ -14,7 +14,6 @@ def index():
     latest_questions = data_handler.get_latest_questions(number_of_latest_questions)
     total_amount_of_questions = data_handler.get_questions_number()
     all_question_tags = data_handler.get_all_question_tags()
-    random_text='<mark>this is the random text</mark>'
     return render_template('index.html', 
                            latest_questions = latest_questions, 
                            total_amount_of_questions = total_amount_of_questions, 
@@ -276,7 +275,6 @@ def search_questions():
     search_argument = request.args.get('q')
     filtered_questions = data_handler.search_for_questions(search_argument)
     search_result_number = len(filtered_questions)
-    filtered_questions_with_markups = data_handler.add_markups_to_questions(filtered_questions, search_argument)
     all_question_tags = data_handler.get_all_question_tags()
     return render_template("search.html", 
                            filtered_questions = filtered_questions, 
