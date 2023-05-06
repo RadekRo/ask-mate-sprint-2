@@ -206,11 +206,13 @@ def add_answer(cursor, current_date, your_answer:dict, image:str):
 @database.connection_handler
 def add_comment_question(cursor, question_comment, id:int):
     current_date = util.get_current_date()
-    cursor.execute("""
-        INSERT INTO comment (question_id, message, submission_time) 
-        VALUES (%(id)s, %(comment)s, %(date)s);""", 
-    {"id":id, "date":current_date, "comment":question_comment})
+    query = """
+          INSERT INTO comment (question_id, message, submission_time) 
+          VALUES (%(id)s, %(comment)s, %(date)s); """
 
+    data = {'id': id, 'comment': question_comment, 'date': current_date}
+
+    cursor.execute(query, data)
 
 @database.connection_handler
 def add_comment_answer(cursor, question_comment, answer_id:int):
