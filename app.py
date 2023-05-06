@@ -275,9 +275,10 @@ def search_questions():
     search_argument = request.args.get('q')
     filtered_questions = data_handler.search_for_questions(search_argument)
     search_result_number = len(filtered_questions)
+    filtered_questions_with_markups = data_handler.add_markups_to_questions(filtered_questions, search_argument)
     all_question_tags = data_handler.get_all_question_tags()
     return render_template("search.html", 
-                           filtered_questions = filtered_questions, 
+                           filtered_questions = filtered_questions_with_markups, 
                            search_result_number = search_result_number, 
                            all_question_tags = all_question_tags)
 
@@ -285,6 +286,7 @@ def search_questions():
 def search_questions_by_tag(tag_id):
     filtered_questions = data_handler.search_for_questions_by_tag(tag_id)
     search_result_number = len(filtered_questions)
+    questions_with_tags = data_handler
     all_question_tags = data_handler.get_all_question_tags()
     return render_template("search.html", 
                            filtered_questions = filtered_questions, 
