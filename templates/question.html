@@ -62,7 +62,7 @@ class="container my-3">
         {{ comment.message }} - <span class="text-info">{{comment.submission_time}}</span> 
         <a href="{{ url_for('route_edit_comment', comment_id=comment.id, id=question.id)}}" class="link-success px-1"><i class="fa-solid fa-pen-to-square"></i></a>
         <span class="text-info">Edited: {{comment.edited_number}} time(s)</span>
-        <a href="{{ url_for('route_delete_comment', comment_id=comment.id)}}" class="link-danger"><i class="fa-solid fa-trash-can"></i></a>
+        <a href="{{ url_for('route_delete_comment', comment_id=comment.id, id=question.id)}}" class="link-danger"><i class="fa-solid fa-trash-can"></i></a>
 </div>
 {% endfor %}
 
