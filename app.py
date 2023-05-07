@@ -7,7 +7,6 @@ import util
 
 app = Flask(__name__)
 
-
 @app.route('/')
 def index():
     number_of_latest_questions = 5

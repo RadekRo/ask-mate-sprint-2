@@ -1,9 +1,3 @@
-#from typing import List, Dict
-
-from psycopg2 import sql
-from psycopg2.extras import RealDictCursor
-from datetime import datetime 
-
 import database
 import os
 import util
@@ -22,14 +16,14 @@ def get_all_questions(cursor, order_by, order_direction):
         WHERE answer.question_id = question.id GROUP by answer.question_id), 0) as answer_number
         FROM question
         ORDER BY {order_by} {order_direction}
-       """
+        """
     cursor.execute(query)
     return cursor.fetchall()
 
 
 @database.connection_handler
 def get_questions_number(cursor):
-    query = f"""
+    query = """
         SELECT COUNT(*) as count_questions
         FROM question 
        """
@@ -39,21 +33,24 @@ def get_questions_number(cursor):
 
 @database.connection_handler
 def get_latest_questions(cursor, number_of_questions:int):
-    query = f"""
+    query = """
         SELECT id, submission_time, view_number, vote_number, title, message, 
         COALESCE((SELECT COUNT(answer.question_id)
         FROM answer 
-        WHERE answer.question_id = question.id GROUP by answer.question_id), 0) as answer_number
+        WHERE answer.question_id = question.id 
+        GROUP by answer.question_id), 0) as answer_number
         FROM question
-        ORDER BY submission_time DESC LIMIT {number_of_questions} OFFSET 0;
+        ORDER BY submission_time DESC 
+        LIMIT %(question_number)s;
     """
-    cursor.execute(query)
+    data = {'question_number': number_of_questions}
+    cursor.execute(query, data)
     return cursor.fetchall()
 
 
 @database.connection_handler
 def get_all_question_tags(cursor):
-    query = f"""
+    query = """
     SELECT question_id, tag_id, 
     (SELECT tag.name FROM tag WHERE tag.id = question_tag.tag_id) as tag_name
     FROM question_tag;
@@ -64,53 +61,57 @@ def get_all_question_tags(cursor):
 
 @database.connection_handler
 def get_question(cursor, id):
-    query = f"""
+    query = """
         SELECT id, submission_time, view_number, vote_number, title, message, image
         FROM question
-        WHERE id = {id}
+        WHERE id = %(id)s
        """
-    cursor.execute(query)
+    data = {'id': id}
+    cursor.execute(query, data)
     return cursor.fetchone()
         
 
 @database.connection_handler
 def get_answer(cursor, answer_id):
-    query = f"""
+    query = """
         SELECT id, submission_time, vote_number, question_id, message, image
         FROM answer
-        WHERE id = {answer_id}
+        WHERE id = %(id)s
        """
-    cursor.execute(query)
+    data = {'id': answer_id}
+    cursor.execute(query, data)
     return cursor.fetchone()
         
 
 @database.connection_handler
 def get_answers(cursor, question_id):
-    query = f"""
+    query = """
         SELECT id, submission_time, vote_number, question_id, message, image
         FROM answer
-        WHERE question_id = {question_id}
+        WHERE question_id = %(id)s
         ORDER by id DESC
        """
-    cursor.execute(query)
+    data = {'id': question_id}
+    cursor.execute(query, data)
     return cursor.fetchall()
 
 
 @database.connection_handler
 def get_comments_question(cursor, question_id):
-    query = f"""
+    query = """
         SELECT id, question_id, message, submission_time, edited_number
         FROM comment
-        WHERE question_id = {question_id}
+        WHERE question_id = %(id)s
         ORDER by id ASC
        """
-    cursor.execute(query)
+    data = {'id': question_id}
+    cursor.execute(query, data)
     return cursor.fetchall()
 
 
 @database.connection_handler
 def get_comments_answer(cursor):
-    query = f"""
+    query = """
     SELECT comment.answer_id, comment.id, comment.message, comment.submission_time, edited_number
     FROM comment
     INNER JOIN answer ON answer.id = comment.answer_id;
@@ -121,43 +122,47 @@ def get_comments_answer(cursor):
 
 @database.connection_handler
 def get_comment(cursor, comment_id):
-    query = f"""
+    query = """
     SELECT id, question_id, message, submission_time, edited_number
         FROM comment
-        WHERE id = {comment_id}    
+        WHERE id = %(id)s    
     """
-    cursor.execute(query)
+    data = {'id': comment_id}
+    cursor.execute(query, data)
     return cursor.fetchone()
 
 
 @database.connection_handler
 def edit_comment(cursor, current_date:str, comment_message:str, comment_id):
-    query = f"""
+    query = """
     UPDATE comment 
-    SET (message, submission_time, edited_number) = ('{comment_message}', '{current_date}', edited_number + 1)
-    WHERE id = {comment_id}    
+    SET (message, submission_time, edited_number) = (%(message)s, %(date)s, edited_number + 1)
+    WHERE id = %(id)s    
     """
-    cursor.execute(query)
+    data = {'message': comment_message, 'date': current_date, 'id': comment_id}
+    cursor.execute(query, data)
 
 @database.connection_handler
 def edit_answer(cursor, current_date:str, answer_message:str, answer_id):
-    query = f"""
+    query = """
     UPDATE answer 
-    SET (message, submission_time) = ('{answer_message}', '{current_date}')
-    WHERE id = {answer_id}    
+    SET (message, submission_time) = (%(answer_message)s, %(date)s)
+    WHERE id = %(id)s    
     """
-    cursor.execute(query)
+    data = {'message': answer_message, 'date': current_date, 'id': answer_id}
+    cursor.execute(query, data)
 
 
 
 @database.connection_handler
 def add_question(cursor, current_date:str, your_question:dict, image:str):
     try:
-        query = f"""
+        query = """
             INSERT INTO question (submission_time, title, message, image) 
-            VALUES ('{current_date}', '{your_question["title"]}','{your_question["message"]}', '{image}')
+            VALUES (%(date)s, %(title)s, %(message)s, %(image)s)
         """
-        cursor.execute(query)
+        data = {'date': current_date, 'title': your_question['title'], 'message': your_question['message'], 'image': image}
+        cursor.execute(query, data)
     except:
         raise ValueError("Wrong values types provided for database input.")
 
@@ -194,11 +199,12 @@ def save_answer_image(file):
 @database.connection_handler
 def add_answer(cursor, current_date, your_answer:dict, image:str):
     try:
-        query = f"""
+        query = """
             INSERT INTO answer (submission_time, question_id, message, image) 
-            VALUES ('{current_date}', '{your_answer["question_id"]}', '{your_answer["message"]}', '{image}')
+            VALUES (%(date)s, %(id)s, %(message)s, %(image)s)
         """
-        cursor.execute(query)
+        data = {'date': current_date, 'id': your_answer["question_id"], 'message': your_answer["message"], 'image': image}
+        cursor.execute(query, data)
     except:
         raise ValueError("Wrong values types provided for database input.")
 
@@ -223,42 +229,46 @@ def add_comment_answer(cursor, question_comment, answer_id:int):
 
 @database.connection_handler
 def add_vote_question(cursor, id:int):
-    query = f"""
+    query = """
         UPDATE question
         SET vote_number = vote_number + 1
-        WHERE id = {id}
+        WHERE id = %(id)s
     """
-    cursor.execute(query)
+    data = {'id': id}
+    cursor.execute(query, data)
 
 
 @database.connection_handler
 def substract_vote_question(cursor, id:int):
-    query = f"""
+    query = """
         UPDATE question
         SET vote_number = vote_number - 1
-        WHERE id = {id}
+        WHERE id = %(id)s
     """
-    cursor.execute(query)
+    data = {'id': id}
+    cursor.execute(query, data)
 
 
 @database.connection_handler
 def add_vote_answer(cursor, id:int):
-    query = f"""
+    query = """
         UPDATE answer
         SET vote_number = vote_number + 1
-        WHERE id = {id}
+        WHERE id = %(id)s
     """
+    data = {'id': id}
     cursor.execute(query)
 
 
 @database.connection_handler
 def substract_vote_answer(cursor, id:int):
-    query = f"""
+    query = """
         UPDATE answer
         SET vote_number = vote_number - 1
-        WHERE id = {id}
+        WHERE id = %(id)s
     """
-    cursor.execute(query)
+    data = {'id': id}
+    cursor.execute(query, data)
 
 # def remove_question(id):
 #     questions = import_data_file(DATA_FILE_PATH_QUESTION)
@@ -284,56 +294,62 @@ def substract_vote_answer(cursor, id:int):
 
 @database.connection_handler
 def get_question_image_path(cursor, id:int):
-    query = f"""
+    query = """
         SELECT image FROM question
-        WHERE id = {id}
+        WHERE id = %(id)s
     """
-    cursor.execute(query)
+    data = {'id': id}
+    cursor.execute(query, data)
     return cursor.fetchone()
 
 @database.connection_handler
 def remove_question(cursor, id:int, file_path:str):
     os.path.exists(file_path) and os.remove(file_path)
-    query = f"""
+    query = """
         DELETE FROM question
-        WHERE id = {id}
+        WHERE id = %(id)s
     """
-    cursor.execute(query)
+    data = {'id': id}
+    cursor.execute(query, data)
     #TODO remove answer connected with question
 
 @database.connection_handler
 def remove_comment(cursor, comment_id:int):
-    query = f"""
+    query = """
     DELETE FROM comment
-    WHERE id = {comment_id}
+    WHERE id = %(id)s
     """
-    cursor.execute(query)
+    data = {'id': comment_id}
+    cursor.execute(query, data)
 
 @database.connection_handler
 def remove_answer(cursor, answer_id:int):
-    query = f"""
+    query = """
     DELETE FROM answer
-    WHERE id = {answer_id}
+    WHERE id = %(id)s
     """
-    cursor.execute(query)
+    data = {'id': answer_id}
+    cursor.execute(query, data)
 
 @database.connection_handler
 def update_question(cursor, question_id, question_date, question_title, question_message, question_image):
-    query = f"""
+    query = """
     UPDATE question 
     SET (submission_time, title, message, image) = ('{question_date}', '{question_title}', '{question_message}', '{question_image}')
-    WHERE id = {question_id}
+    WHERE id = %(id)s
     """
-    cursor.execute(query)
+    data = {'id': question_id}
+    cursor.execute(query, data)
 
 @database.connection_handler
 def count_view(cursor, id:int):
-    query = f"""
+    query = """
         UPDATE question 
         SET view_number = view_number + 1
-        WHERE id = {id}
+        WHERE id = %(id)s
     """
-    cursor.execute(query)
+    data = {'id': id}
+    cursor.execute(query, data)
 
 @database.connection_handler
 def search_for_questions(cursor, search_argument):
@@ -355,12 +371,13 @@ def search_for_questions(cursor, search_argument):
 
 @database.connection_handler
 def search_for_questions_by_tag(cursor, tag_id):
-    query = f"""
+    query = """
         SELECT * FROM question
-        WHERE question.id IN (SELECT question_id FROM question_tag WHERE tag_id = {tag_id})
+        WHERE question.id IN (SELECT question_id FROM question_tag WHERE tag_id = %(tag)s)
         ORDER BY submission_time DESC
     """
-    cursor.execute(query)
+    data = {'tag': tag_id}
+    cursor.execute(query, data)
     return cursor.fetchall()
 
 
@@ -373,35 +390,40 @@ def get_tags_list(cursor):
 
 @database.connection_handler
 def get_question_tags(cursor, question_id):
-    query = f"""
+    query = """
         SELECT * FROM tag 
-        WHERE id IN (SELECT tag_id FROM question_tag WHERE question_id = {question_id})"""
-    cursor.execute(query)
+        WHERE id IN (SELECT tag_id FROM question_tag WHERE question_id = %(id)s)"""
+    data = {'id': question_id}
+    cursor.execute(query, data)
     return cursor.fetchall()
 
 
 @database.connection_handler
 def add_new_tag(cursor, new_tag):
-    query = f"INSERT INTO tag (name) VALUES ('{new_tag}')"
-    cursor.execute(query)
+    query = "INSERT INTO tag (name) VALUES (%(tag)s)"
+    data = {'tag': new_tag}
+    cursor.execute(query, data)
  
 
 @database.connection_handler
 def get_tag_id(cursor, tag):
-    query = f"SELECT id FROM tag WHERE name = '{tag}'"
+    query = "SELECT id FROM tag WHERE name = %(tag)s"
+    data = {'tag': tag}
     cursor.execute(query)
     return cursor.fetchone()
 
 
 @database.connection_handler
 def add_tag_to_question(cursor, question_id, tag_id):
-    query = f"INSERT INTO question_tag (question_id, tag_id) VALUES ({question_id}, {tag_id})"
-    cursor.execute(query)
+    query = "INSERT INTO question_tag (question_id, tag_id) VALUES (%(qid)s, %(tid)s)"
+    data = {'qid': question_id, 'tid': tag_id}
+    cursor.execute(query, data)
 
 @database.connection_handler
 def delete_tag(cursor, tag_id, question_id):
-    query = f"DELETE from question_tag WHERE question_id = {question_id} AND tag_id = {tag_id}"
-    cursor.execute(query)
+    query = "DELETE from question_tag WHERE question_id = %(qid)s AND tag_id = %(tid)s"
+    data = {'qid': question_id, 'tid': tag_id}
+    cursor.execute(query, data)
 
 def add_markups_to_questions(questions_list, searching_phrase):
     for question in questions_list:
