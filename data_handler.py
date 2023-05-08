@@ -142,6 +142,7 @@ def edit_comment(cursor, current_date:str, comment_message:str, comment_id):
     data = {'message': comment_message, 'date': current_date, 'id': comment_id}
     cursor.execute(query, data)
 
+
 @database.connection_handler
 def edit_answer(cursor, current_date:str, answer_message:str, answer_id):
     query = """
@@ -151,7 +152,6 @@ def edit_answer(cursor, current_date:str, answer_message:str, answer_id):
     """
     data = {'message': answer_message, 'date': current_date, 'id': answer_id}
     cursor.execute(query, data)
-
 
 
 @database.connection_handler
@@ -176,6 +176,7 @@ def save_question_image(file):
     else:
         return "no-image"
 
+
 def update_question_image(file, image):
     if file.filename != "":
         image != "no-image" and os.remove(image)
@@ -185,6 +186,7 @@ def update_question_image(file, image):
         return UPLOAD_FOLDER_FOR_QUESTIONS + file_name_with_extension
     else:
         return image
+
 
 def save_answer_image(file):
     if file.filename != "":
@@ -218,6 +220,7 @@ def add_comment_question(cursor, question_comment, id:int):
     data = {'id': id, 'comment': question_comment, 'date': current_date}
     cursor.execute(query, data)
 
+
 @database.connection_handler
 def add_comment_answer(cursor, question_comment, answer_id:int):
     current_date = util.get_current_date()
@@ -226,6 +229,7 @@ def add_comment_answer(cursor, question_comment, answer_id:int):
           VALUES (%(id)s, %(comment)s, %(date)s); """
     data = {'id': answer_id, 'comment': question_comment, 'date': current_date}
     cursor.execute(query, data)
+
 
 @database.connection_handler
 def add_vote_question(cursor, id:int):
@@ -302,6 +306,7 @@ def get_question_image_path(cursor, id:int):
     cursor.execute(query, data)
     return cursor.fetchone()
 
+
 @database.connection_handler
 def remove_question(cursor, id:int, file_path:str):
     os.path.exists(file_path) and os.remove(file_path)
@@ -313,6 +318,7 @@ def remove_question(cursor, id:int, file_path:str):
     cursor.execute(query, data)
     #TODO remove answer connected with question
 
+
 @database.connection_handler
 def remove_comment(cursor, comment_id:int):
     query = """
@@ -322,6 +328,7 @@ def remove_comment(cursor, comment_id:int):
     data = {'id': comment_id}
     cursor.execute(query, data)
 
+
 @database.connection_handler
 def remove_answer(cursor, answer_id:int):
     query = """
@@ -330,6 +337,7 @@ def remove_answer(cursor, answer_id:int):
     """
     data = {'id': answer_id}
     cursor.execute(query, data)
+
 
 @database.connection_handler
 def update_question(cursor, question_id, question_date, question_title, question_message, question_image):
@@ -341,6 +349,7 @@ def update_question(cursor, question_id, question_date, question_title, question
     data = {'id': question_id}
     cursor.execute(query, data)
 
+
 @database.connection_handler
 def count_view(cursor, id:int):
     query = """
@@ -351,9 +360,10 @@ def count_view(cursor, id:int):
     data = {'id': id}
     cursor.execute(query, data)
 
+
 @database.connection_handler
 def search_for_questions(cursor, search_argument):
-    query = f"""
+    query = """
         SELECT id, submission_time, view_number, vote_number, title, message, 
             COALESCE((SELECT COUNT(answer.question_id)
             FROM answer 
@@ -361,13 +371,15 @@ def search_for_questions(cursor, search_argument):
         FROM question 
         WHERE id IN (SELECT DISTINCT question_id
                         FROM answer 
-                        WHERE message LIKE '%{search_argument}%')
-            OR title LIKE '%{search_argument}%' 
-            OR message LIKE '%{search_argument}%'
+                        WHERE message LIKE %(search)s)
+            OR title LIKE %(search)s 
+            OR message LIKE %(search)s
         ORDER BY submission_time DESC
     """
-    cursor.execute(query)
+    data = {'search': '%' + search_argument + '%'}
+    cursor.execute(query, data)
     return cursor.fetchall()
+
 
 @database.connection_handler
 def search_for_questions_by_tag(cursor, tag_id):
@@ -419,11 +431,13 @@ def add_tag_to_question(cursor, question_id, tag_id):
     data = {'qid': question_id, 'tid': tag_id}
     cursor.execute(query, data)
 
+
 @database.connection_handler
 def delete_tag(cursor, tag_id, question_id):
     query = "DELETE from question_tag WHERE question_id = %(qid)s AND tag_id = %(tid)s"
     data = {'qid': question_id, 'tid': tag_id}
     cursor.execute(query, data)
+
 
 def add_markups_to_questions(questions_list, searching_phrase):
     for question in questions_list:
