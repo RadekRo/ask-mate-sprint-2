@@ -17,7 +17,7 @@ def get_all_questions(cursor, order_by, order_direction):
             FROM answer 
             WHERE answer.question_id = question.id GROUP by answer.question_id), 0) as answer_number
             FROM question
-            ORDER BY %(order)s ASC
+            ORDER BY %(order)s DESC
             """
     else: 
         query = """
@@ -26,7 +26,7 @@ def get_all_questions(cursor, order_by, order_direction):
             FROM answer 
             WHERE answer.question_id = question.id GROUP by answer.question_id), 0) as answer_number
             FROM question
-            ORDER BY %(order)s DESC
+            ORDER BY %(order)s ASC
             """
     data = {'order': order_by}
     cursor.execute(query, data)
