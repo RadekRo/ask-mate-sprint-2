@@ -5,7 +5,6 @@ import util
 
 UPLOAD_FOLDER_FOR_QUESTIONS = 'static/images/questions/'
 UPLOAD_FOLDER_FOR_ANSWERS = 'static/images/answers/'
-QUESTION_SORT_OPTIONS = ['submission_time', 'view_number', 'vote_number', 'title', 'message']
 
 
 @database.connection_handler
@@ -17,17 +16,18 @@ def get_all_questions(cursor, order_by, order_direction):
             FROM answer 
             WHERE answer.question_id = question.id GROUP by answer.question_id), 0) as answer_number
             FROM question
-            ORDER BY %(order)s DESC
-            """
+            ORDER BY {} DESC
+            """.format(order_by)
     else: 
         query = """
-            SELECT id, submission_time, view_number, vote_number, title, message, 
-            COALESCE((SELECT COUNT(answer.question_id)
-            FROM answer 
-            WHERE answer.question_id = question.id GROUP by answer.question_id), 0) as answer_number
-            FROM question
-            ORDER BY %(order)s ASC
-            """
+        SELECT id, submission_time, view_number, vote_number, title, message, 
+        COALESCE((SELECT COUNT(answer.question_id)
+              FROM answer 
+              WHERE answer.question_id = question.id GROUP by answer.question_id), 0) as answer_number
+        FROM question
+        ORDER BY {} ASC
+        """.format(order_by)
+        
     data = {'order': order_by}
     cursor.execute(query, data)
     return cursor.fetchall()
