@@ -27,7 +27,7 @@ def get_all_questions(cursor, order_by, order_direction):
         FROM question
         ORDER BY {} ASC
         """.format(order_by)
-        
+
     data = {'order': order_by}
     cursor.execute(query, data)
     return cursor.fetchall()
@@ -286,27 +286,9 @@ def substract_vote_answer(cursor, id:int):
     data = {'id': id}
     cursor.execute(query, data)
 
-# def remove_question(id):
-#     questions = import_data_file(DATA_FILE_PATH_QUESTION)
-#     answers = import_data_file(DATA_FILE_PATH_ANSWER)
-#     questions_filtered = list()
-#     answers_filtered = list()
-#     for question in questions:
-#         if question[0] == str(id):
-#             file_path = "static/images/questions/" + str(id) + ".jpg" 
-#             os.path.exists(file_path) and os.remove(file_path)
-#             continue
-#         else:
-#             questions_filtered.append(question)
-#     for answer in answers:
-#         if answer[3] == str(id):
-#             file_path = "static/images/answers/" + str(answer[0]) + ".jpg" 
-#             os.path.exists(file_path) and os.remove(file_path)
-#             continue
-#         else:
-#             answers_filtered.append(answer)
-#     save_data(DATA_FILE_PATH_QUESTION, questions_filtered)
-#     save_data(DATA_FILE_PATH_ANSWER, answers_filtered)
+@database.connection_handler
+def remove_question(id):
+    pass
 
 @database.connection_handler
 def get_question_image_path(cursor, id:int):
