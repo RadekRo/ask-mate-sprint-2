@@ -80,8 +80,8 @@ def question_vote_substract(id):
 
 @app.route('/question/<id>/delete')
 def delete_question(id):
-    file_path = data_handler.get_question_image_path(id)
-    data_handler.remove_question(id, file_path['image'])
+    #file_path = data_handler.get_question_image_path(id)
+    data_handler.remove_question(id)
     return redirect("/")
 
 @app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])

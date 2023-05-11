@@ -286,9 +286,9 @@ def substract_vote_answer(cursor, id:int):
     data = {'id': id}
     cursor.execute(query, data)
 
-@database.connection_handler
-def remove_question(id):
-    pass
+def remove_question(question_id):
+    # tag deletion
+    delete_all_question_tags(question_id)
 
 @database.connection_handler
 def get_question_image_path(cursor, id:int):
@@ -299,18 +299,6 @@ def get_question_image_path(cursor, id:int):
     data = {'id': id}
     cursor.execute(query, data)
     return cursor.fetchone()
-
-
-@database.connection_handler
-def remove_question(cursor, id:int, file_path:str):
-    os.path.exists(file_path) and os.remove(file_path)
-    query = """
-        DELETE FROM question
-        WHERE id = %(id)s
-    """
-    data = {'id': id}
-    cursor.execute(query, data)
-    #TODO remove answer connected with question
 
 
 @database.connection_handler
@@ -432,6 +420,11 @@ def delete_tag(cursor, tag_id, question_id):
     data = {'qid': question_id, 'tid': tag_id}
     cursor.execute(query, data)
 
+@database.connection_handler
+def delete_all_question_tags(cursor, question_id):
+    query = "DELETE from question_tag WHERE question_id = %(qid)s"
+    data = {'qid': question_id}
+    cursor.execute(query, data)
 
 def add_markups_to_questions(questions_list, searching_phrase):
     for question in questions_list:
