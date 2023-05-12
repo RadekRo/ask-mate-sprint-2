@@ -403,7 +403,7 @@ def add_new_tag(cursor, new_tag):
 def get_tag_id(cursor, tag):
     query = "SELECT id FROM tag WHERE name = %(tag)s"
     data = {'tag': tag}
-    cursor.execute(query)
+    cursor.execute(query, data)
     return cursor.fetchone()
 
 
