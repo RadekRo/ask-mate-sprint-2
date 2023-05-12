@@ -273,7 +273,7 @@ def add_vote_answer(cursor, id:int):
         WHERE id = %(id)s
     """
     data = {'id': id}
-    cursor.execute(query)
+    cursor.execute(query, data)
 
 
 @database.connection_handler
