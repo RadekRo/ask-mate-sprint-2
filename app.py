@@ -172,7 +172,7 @@ def route_answer_substract_vote(answer_id):
 def route_comment_answer(answer_id):
     id = request.args.get('id')
     if request.method == "POST":
-        id = request.form.get('id')
+        id = request.form.get('question_id')
         answer_comment = request.form.get('message')
         answer_id = request.form.get('answer_id')
         data_handler.add_comment_answer(answer_comment, answer_id)

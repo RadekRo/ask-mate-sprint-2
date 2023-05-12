@@ -234,12 +234,12 @@ def add_comment_question(cursor, question_comment, id:int):
 
 
 @database.connection_handler
-def add_comment_answer(cursor, question_comment, answer_id:int):
+def add_comment_answer(cursor, answer_comment, answer_id:int):
     current_date = util.get_current_date()
     query = """
-          INSERT INTO comment (question_id, message, submission_time) 
+          INSERT INTO comment (answer_id, message, submission_time) 
           VALUES (%(id)s, %(comment)s, %(date)s); """
-    data = {'id': answer_id, 'comment': question_comment, 'date': current_date}
+    data = {'id': answer_id, 'comment': answer_comment, 'date': current_date}
     cursor.execute(query, data)
 
 
