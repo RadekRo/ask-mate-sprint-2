@@ -286,9 +286,16 @@ def substract_vote_answer(cursor, id:int):
     data = {'id': id}
     cursor.execute(query, data)
 
-def remove_question(question_id):
-    # tag deletion
-    pass
+@database.connection_handler
+def remove_question(cursor, question_id, image):
+    if image['image'] != 'no-image':
+        os.remove(image['image'])
+    query = """
+    DELETE FROM question
+    WHERE id = %(id)s
+    """
+    data = {'id': question_id}
+    cursor.execute(query, data)
 
 @database.connection_handler
 def get_all_answers_ids(cursor, question_id:int):
