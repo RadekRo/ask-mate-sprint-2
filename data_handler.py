@@ -330,13 +330,23 @@ def remove_comment(cursor, comment_id:int):
     cursor.execute(query, data)
 
 @database.connection_handler
-def remove_all_comments(cursor, question_id, answers_id_list):
+def remove_all_question_comments(cursor, question_id, answers_id_list):
     query = """
     DELETE FROM comment
     WHERE question_id = %(qid)s
     OR answer_id IN %(aids)s
     """
     data = {'qid': question_id, 'aids': answers_id_list}
+    cursor.execute(query, data)
+
+
+@database.connection_handler
+def remove_all_answer_comments(cursor, answer_id):
+    query = """
+    DELETE FROM comment
+    WHERE id = %(id)s
+    """
+    data = {'id': answer_id}
     cursor.execute(query, data)
 
 
