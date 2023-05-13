@@ -320,7 +320,7 @@ def remove_comment(cursor, comment_id:int):
     data = {'id': comment_id}
     cursor.execute(query, data)
 
-
+@database.connection_handler
 def remove_all_comments(cursor, question_id, answers_id_list):
     query = """
     DELETE FROM comment

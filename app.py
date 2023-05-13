@@ -84,7 +84,8 @@ def delete_question(id):
     #file_path = data_handler.get_question_image_path(id)
     data_handler.delete_all_question_tags(question_id)
     all_answers_ids = data_handler.get_all_answers_ids(question_id)
-    all_answers_ids_list = [row['id'] for row in all_answers_ids]
+    #all_answers_ids_list =(row['id'] for row in all_answers_ids)
+    all_answers_ids_list = tuple(value for row in all_answers_ids for value in row.values())
     data_handler.remove_all_comments(question_id, all_answers_ids_list)
     return redirect("/")
 
