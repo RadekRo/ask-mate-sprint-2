@@ -84,7 +84,6 @@ def delete_question(id):
     #file_path = data_handler.get_question_image_path(id)
     data_handler.delete_all_question_tags(question_id)
     all_answers_ids = data_handler.get_all_answers_ids(question_id)
-    #all_answers_ids_list =(row['id'] for row in all_answers_ids)
     all_answers_ids_list = tuple(value for row in all_answers_ids for value in row.values())
     data_handler.remove_all_comments(question_id, all_answers_ids_list)
     return redirect("/")
@@ -225,9 +224,11 @@ def route_delete_answer(answer_id):
 @app.route('/answer/<answer_id>/delete_answer', methods=["POST", "GET"])
 def delete_answer(answer_id):
     if request.method == "POST":
-        id = request.form.get('id')
-        data_handler.remove_answer(answer_id)
-        redirect_dir = "/question/" + id
+        question_id = request.form.get('question_id')
+        answer_id = request.form.get('answer_id')
+        image = data_handler.get_answer_image_path(answer_id)
+        data_handler.remove_answer(answer_id, image)
+        redirect_dir = "/question/" + question_id
         return redirect(redirect_dir)
     
 

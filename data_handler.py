@@ -310,6 +310,15 @@ def get_question_image_path(cursor, id:int):
     cursor.execute(query, data)
     return cursor.fetchone()
 
+@database.connection_handler
+def get_answer_image_path(cursor, answer_id:int):
+    query = """
+        SELECT image FROM answer
+        WHERE id = %(id)s
+    """
+    data = {'id': answer_id}
+    cursor.execute(query, data)
+    return cursor.fetchone()
 
 @database.connection_handler
 def remove_comment(cursor, comment_id:int):
@@ -332,7 +341,9 @@ def remove_all_comments(cursor, question_id, answers_id_list):
 
 
 @database.connection_handler
-def remove_answer(cursor, answer_id:int):
+def remove_answer(cursor, answer_id:int, image):
+    if image != 'no-image':
+        os.remove(image['image'])
     query = """
     DELETE FROM answer
     WHERE id = %(id)s
