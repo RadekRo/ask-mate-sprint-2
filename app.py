@@ -86,6 +86,10 @@ def delete_question(id):
     all_answers_ids = data_handler.get_all_answers_ids(question_id)
     all_answers_ids_list = tuple(value for row in all_answers_ids for value in row.values())
     data_handler.remove_all_question_comments(question_id, all_answers_ids_list)
+    for answer_id in all_answers_ids_list:
+        image = data_handler.get_answer_image_path(answer_id)
+        data_handler.remove_all_answer_comments(answer_id)
+        data_handler.remove_answer(answer_id, image)
     return redirect("/")
 
 @app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])

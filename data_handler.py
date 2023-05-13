@@ -351,8 +351,8 @@ def remove_all_answer_comments(cursor, answer_id):
 
 
 @database.connection_handler
-def remove_answer(cursor, answer_id:int, image):
-    if image != 'no-image':
+def remove_answer(cursor, answer_id:int, image:str):
+    if image['image'] != 'no-image':
         os.remove(image['image'])
     query = """
     DELETE FROM answer
